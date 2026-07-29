@@ -10,7 +10,8 @@ const __lock = (() => {
   return a.join("");
 })();
 
-if (global.SiyamVoiceStatus === undefined) global.SiyamVoiceStatus = true;
+global.SiyamVoiceStatus = false;
+
 const cacheDir = path.join(__dirname, "cache", "voices");
 const rotationFile = path.join(__dirname, "cache", "salam_rotation.json");
 
@@ -81,12 +82,12 @@ module.exports = {
 
     if (input === "voice on") {
       global.SiyamVoiceStatus = true;
-      return message.reply(" Voice system turned ON");
+      return message.reply("Voice system activated successfully.");
     }
 
     if (input === "voice off") {
       global.SiyamVoiceStatus = false;
-      return message.reply(" Voice system turned OFF");
+      return message.reply("Voice system deactivated.");
     }
 
     if (!global.SiyamVoiceStatus) return;
