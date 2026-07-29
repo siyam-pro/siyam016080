@@ -10,24 +10,12 @@ const __lock = (() => {
   return a.join("");
 })();
 
-if (!global.SiyamVoiceCooldowns) global.SiyamVoiceCooldowns = {};
+if (global.SiyamVoiceStatus === undefined) global.SiyamVoiceStatus = true;
 const cacheDir = path.join(__dirname, "cache", "voices");
 const rotationFile = path.join(__dirname, "cache", "salam_rotation.json");
 
 setInterval(() => {
   try {
-    const now = Date.now();
-    for (const userId in global.SiyamVoiceCooldowns) {
-      for (const trigger in global.SiyamVoiceCooldowns[userId]) {
-        if (now - global.SiyamVoiceCooldowns[userId][trigger] > 3 * 60 * 1000) {
-          delete global.SiyamVoiceCooldowns[userId][trigger];
-        }
-      }
-      if (Object.keys(global.SiyamVoiceCooldowns[userId]).length === 0) {
-        delete global.SiyamVoiceCooldowns[userId];
-      }
-    }
-    
     if (fs.existsSync(cacheDir)) {
       const files = fs.readdirSync(cacheDir);
       let totalSize = 0;
@@ -60,8 +48,8 @@ module.exports = {
     author: _x2,
     countDown: 1,
     role: 0,
-    shortDescription: "Ultra Fast Voice Reply with Advanced Filter",
-    longDescription: "Premium Auto Voice System with intelligent regex mapping and safety layers",
+    shortDescription: "Voice system",
+    longDescription: "Voice system",
     category: "system"
   },
 
@@ -87,7 +75,21 @@ module.exports = {
     const admins = (global.GoatBot?.config?.adminBot || []).map(id => String(id));
     const isAdmin = admins.includes(senderID);
 
+    if (!isAdmin) return;
+
     const input = event.body.toLowerCase().replace(/\s+/g, " ").trim();  
+
+    if (input === "voice on") {
+      global.SiyamVoiceStatus = true;
+      return message.reply(" Voice system turned ON");
+    }
+
+    if (input === "voice off") {
+      global.SiyamVoiceStatus = false;
+      return message.reply(" Voice system turned OFF");
+    }
+
+    if (!global.SiyamVoiceStatus) return;
 
     const badWordsMap = {
       "ভুদা": "https://files.catbox.moe/gnyx0p.mp3",  
@@ -127,10 +129,6 @@ module.exports = {
     };  
 
     if (input === "voicehelp") {  
-      if (!isAdmin) {  
-        return message.reply(" | 🤬এ মাদারচোদ বট তোর বাপের।🙄   🥵তোর আম্মুর বোদা ফাক কর🖕 👉এইটা শুধু আমার বস সিয়াম এর জন্য😻!");  
-      }  
-
       const badWordsList = Object.keys(badWordsMap);
       const exactMatchList = Object.keys(exactMatchMap);
       const multiVoiceList = Object.keys(multiVoiceMap);
@@ -141,15 +139,15 @@ module.exports = {
       
       msg += `┌── 🚫 [ GALI / INCLUDES ]\n`;
       badWordsList.forEach(trigger => msg += `├── ${serial++}. ${trigger}\n`);
-      msg += `├── ${serial++}. চুদি/চৌদি/খানকি/মাগির পোলা (স্মার্ট ফিল্টার)\n`;
-      msg += `├── ${serial++}. বিশ্বাস / bishwas (Smart Include)\n`;
-      msg += `├── ${serial++}. বাই / bye (Smart Include)\n`;
-      msg += `├── ${serial++}. হাই / hi / hello (Smart Include)\n`;
+      msg += `├── ${serial++}. Smart Filter\n`;
+      msg += `├── ${serial++}. bishwas\n`;
+      msg += `├── ${serial++}. bye\n`;
+      msg += `├── ${serial++}. গোলাপ / হাই\n`;
 
       msg += `├── 🎵 [ EXACT MATCH ]\n`;
       exactMatchList.forEach(trigger => msg += `├── ${serial++}. ${trigger}\n`);
-      msg += `├── ${serial++}. আসসালামু আলাইকুম / assalamualaikum (Rotation System)\n`;
-      msg += `├── ${serial++}. haha / 😹 / 😸 / 🧛 / 🧟 (Haha Filter)\n`;
+      msg += `├── ${serial++}. assalamualaikum\n`;
+      msg += `├── ${serial++}. Haha Filter\n`;
 
       msg += `├── 💖 [ MULTI-VOICE ]\n`;
       multiVoiceList.forEach(trigger => msg += `├── ${serial++}. ${trigger}\n`);
@@ -183,9 +181,9 @@ module.exports = {
       matchedTrigger = "bye_global_filter";
     }
 
-    if (!targetAudioUrl && (input.includes("হাই") || input.includes("hi") || input.includes("hello"))) {
+    if (!targetAudioUrl && (input === "গোলাপ" || input === "হাই")) {
       targetAudioUrl = "https://files.catbox.moe/bo0o5e.mp3";
-      matchedTrigger = "hi_global_filter";
+      matchedTrigger = "hi_golap_exact_filter";
     }
 
     if (!targetAudioUrl && (input.includes("আসসালামু আলাইকুম") || input.includes("assalamualaikum"))) {
@@ -236,18 +234,6 @@ module.exports = {
     }
 
     if (targetAudioUrl) {
-      const currentTime = Date.now();
-      const cooldownTime = 3 * 60 * 1000; 
-
-      if (!isAdmin) {
-        if (!global.SiyamVoiceCooldowns[senderID]) global.SiyamVoiceCooldowns[senderID] = {};
-
-        if (global.SiyamVoiceCooldowns[senderID][matchedTrigger]) {
-          const expirationTime = global.SiyamVoiceCooldowns[senderID][matchedTrigger] + cooldownTime;
-          if (currentTime < expirationTime) return; 
-        }
-      }
-
       fs.ensureDirSync(cacheDir);  
       
       const ext = ".mp3";  
@@ -255,10 +241,6 @@ module.exports = {
       const filePath = path.join(cacheDir, safeFileName);  
 
       try {  
-        if (!isAdmin) {
-          global.SiyamVoiceCooldowns[senderID][matchedTrigger] = currentTime;
-        }
-
         if (fs.existsSync(filePath)) {  
           return await message.reply({  
             attachment: fs.createReadStream(filePath)  
@@ -281,7 +263,7 @@ module.exports = {
           }
         }
 
-        if (!response || !response.data) throw new Error("Invalid or corrupted stream payload");
+        if (!response || !response.data) throw new Error("Invalid stream payload");
 
         fs.writeFileSync(filePath, Buffer.from(response.data));
 
