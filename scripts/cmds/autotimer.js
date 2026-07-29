@@ -17,8 +17,17 @@ const cacheDir = path.join(__dirname, "cache");
 const statusFile = path.join(__dirname, "autotimer_status.json");
 
 const startupVideoPath = path.join(cacheDir, "startup_video.mp4");
-const startupVideoUrl = "https://files.catbox.moe/2ii8c7.mp4"; 
-const startupMsg = "🚀 Auto Timer Bot System Started Successfully!";
+const startupVideoUrl = "https://files.catbox.moe/3y330y.mp4"; 
+const startupMsg = `» 🕌 𝐀𝐒𝐒𝐀𝐋𝐀𝐌𝐔 𝐀𝐋𝐀𝐈𝐊𝐔𝐌
+───────────────
+» 🎥 এখন থেকে এই গ্রুপে
+» ⏰ ভিডিও সহ টাইম
+» 📥 প্রতি ১ ঘন্টা পর পর আসবে 
+───────────────
+» ⚙️ বন্ধ করতে
+» ➤ ,autoseen off ❌
+───────────────
+» 🤖 𝐍𝐈𝐉𝐇𝐔𝐌-𝐂𝐇𝐀𝐓-𝐁𝐎𝐓`;
 
 if (!fs.existsSync(cacheDir)) {
   fs.mkdirSync(cacheDir, { recursive: true });
@@ -189,7 +198,7 @@ module.exports.onStart = async function ({ api, event, args }) {
   if (args[0].toLowerCase() === "on") {
     if (statusData.enabled) {
       return api.sendMessage(
-        "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» ✅ 𝑨𝒖𝒕𝒐 𝑻𝒊𝒎𝒆𝒓 ইতিমধ্যে \n»🌡️𝑶𝑵 আছে 🟢\n» 🔔 অটো ভিডিও এখন\n» 🥱 চালু রয়েছে 📥\n───────────────\n» 🧚‍♀️ 𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧",
+        "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀索-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» ✅ 𝑨𝒖𝒕𝒐 𝑻𝒊𝒎𝒆𝒓 ইতিমধ্যে \n»🌡️𝑶𝑵 আছে 🟢\n» 🔔 অটো ভিডিও এখন\n» 🥱 চালু রয়েছে 📥\n───────────────\n» 🧚‍♀️ 𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧",
         event.threadID,
         event.messageID
       );
