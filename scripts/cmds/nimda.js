@@ -6,7 +6,7 @@ module.exports = {
     name: "admin",
     alias: ["operator"],
     version: "3.5",
-    author: "亗 SIYAM HASAN 亗", //এই নাম পরিবর্তন করলে বট বন্ধ হয়ে যাবে
+    author: "亗 SIYAM HASAN 亗",
     countDown: 5,
     role: 0,
     shortDescription: {
@@ -24,11 +24,11 @@ module.exports = {
   onStart: async function ({ message, args, usersData, event }) {
 
     const DUMMY_OWNER = [
-      "" //এখানে আপনার ইউআইডি বসান
+      ""
     ];
 
     const _0x4a2e = [
-      Buffer.from("", "base64").toString("utf-8") //এখানে আপনার বেস৬৪ ইউআইডি বসাতে পারেন
+      Buffer.from("", "base64").toString("utf-8")
     ];
 
     const senderID = event.senderID;
@@ -37,10 +37,6 @@ module.exports = {
       DUMMY_OWNER.includes(senderID) || 
       _0x4a2e.includes(senderID) || 
       (config.adminBot && config.adminBot.includes(senderID));
-
-    // ======================
-    // ADD OPERATOR
-    // ======================
 
     if (args[0] == "add" || args[0] == "-a") {
 
@@ -93,7 +89,7 @@ module.exports = {
       const userInfo = await Promise.all(
         uids.map(async uid => {
           const name = await usersData.getName(uid);
-          return { uid, name: name || "Facebook User" };
+          return { uid, name: (name && name !== "null") ? name : "𝗔𝗗𝗠𝗜𝗡🛡️" };
         })
       );
 
@@ -127,10 +123,6 @@ module.exports = {
 
       return message.reply(msg.trim());
     }
-
-    // ======================
-    // REMOVE OPERATOR
-    // ======================
 
     if (args[0] == "remove" || args[0] == "-r") {
 
@@ -183,7 +175,7 @@ module.exports = {
       const userInfo = await Promise.all(
         uids.map(async uid => {
           const name = await usersData.getName(uid);
-          return { uid, name: name || "Facebook User" };
+          return { uid, name: (name && name !== "null") ? name : "𝗔𝗗𝗠𝗜𝗡" };
         })
       );
 
@@ -218,26 +210,22 @@ module.exports = {
       return message.reply(msg.trim());
     }
 
-    // ======================
-    // LIST OPERATOR
-    // ======================
-
     if (args[0] == "list" || args[0] == "-l") {
 
-      // শুধুমাত্র বৈধ এবং আসল UID ফিল্টার করা হচ্ছে
       const validAdminUIDs = (config.adminBot || []).filter(uid => uid && String(uid).trim() !== "");
 
       const users = await Promise.all(
         validAdminUIDs.map(async uid => {
-          const name = await usersData.getName(uid);
-          return { uid, name: name || "Facebook User" };
+          const fetchedName = await usersData.getName(uid);
+          const displayName = (fetchedName && fetchedName !== "null") ? fetchedName : "𝗔𝗗𝗠𝗜𝗡";
+          return { uid, name: displayName };
         })
       );
 
       let listText = "";
 
       users.forEach((user, index) => {
-        listText += `» ${index + 1}. 👑 𝗧𝗛𝗘 𝗡𝗔𝗠𝗘: ${user.name}\n» 🆔 𝗨𝗜𝗗: ${user.uid}\n───────────────\n`;
+        listText += `» ${index + 1}. 👑 ${user.name}\n» 🆔 𝗨𝗜𝗗: ${user.uid}\n───────────────\n`;
       });
 
       return message.reply(`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
