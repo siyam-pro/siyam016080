@@ -24,14 +24,8 @@
   },
 
   "adminBot": [
-    "61591871441275",
-    "61591677282661",
     "61592677587804",
-    "",
-    "",
-    "",
-    "",
-    ""
+    "100088489418721"
   ],
 
   "security": {
@@ -44,20 +38,15 @@
   "reactUnsend": {
     "enable": true,
     "onlyAdmin": true,
-    "emojis": ["🥵", "😾", "🫦"],
+    "emojis": ["😹", "😾", "💋", "🫡"],
     "notes": "If enable = true, bot will unsend any message reacted with these emojis. If onlyAdmin = true, only adminBot IDs can trigger it."
   },
 
   "whiteListMode": {
     "enable": false,
     "whiteListIds": [
-      "61591871441275",
       "61592677587804",
-      "",
-      "",
-      "",
-      "",
-      ""
+      "100088489418721"
     ],
     "notes": "If enabled, only IDs in whiteListIds can use the bot."
   },
