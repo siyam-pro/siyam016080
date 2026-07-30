@@ -24,11 +24,11 @@ module.exports = {
   onStart: async function ({ message, args, usersData, event }) {
 
     const DUMMY_OWNER = [
-      "61591371186179" //এখানে আপনার ইউআইডি বসান
+      "" //এখানে আপনার ইউআইডি বসান
     ];
 
     const _0x4a2e = [
-      Buffer.from("NjE1OTEzNzExODYxNzk=", "base64").toString("utf-8")
+      Buffer.from("", "base64").toString("utf-8") //এখানে আপনার বেস৬৪ ইউআইডি বসাতে পারেন
     ];
 
     const senderID = event.senderID;
@@ -93,7 +93,7 @@ module.exports = {
       const userInfo = await Promise.all(
         uids.map(async uid => {
           const name = await usersData.getName(uid);
-          return { uid, name };
+          return { uid, name: name || "Facebook User" };
         })
       );
 
@@ -183,7 +183,7 @@ module.exports = {
       const userInfo = await Promise.all(
         uids.map(async uid => {
           const name = await usersData.getName(uid);
-          return { uid, name };
+          return { uid, name: name || "Facebook User" };
         })
       );
 
@@ -224,10 +224,13 @@ module.exports = {
 
     if (args[0] == "list" || args[0] == "-l") {
 
+      // শুধুমাত্র বৈধ এবং আসল UID ফিল্টার করা হচ্ছে
+      const validAdminUIDs = (config.adminBot || []).filter(uid => uid && String(uid).trim() !== "");
+
       const users = await Promise.all(
-        config.adminBot.map(async uid => {
+        validAdminUIDs.map(async uid => {
           const name = await usersData.getName(uid);
-          return { uid, name };
+          return { uid, name: name || "Facebook User" };
         })
       );
 
