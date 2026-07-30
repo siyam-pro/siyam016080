@@ -14,7 +14,7 @@
   "language": "en",
   "notesLanguage": "change language using ISO 639-1 code",
 
-  "nickNameBot": "─꯭‎— [,] 𓆩»̶̶͓͓͓̽̽̽𝆠꯭፝֟ɴɪᴊʜᴜᴍ-ᴄʜᴀᴛ-ʙᴏᴛ𝆠꯭፝֟⚜️𓆪:)>𝟑",
+  "nickNameBot": "[,]𝐍𝐈𝐉𝐇𝐔𝐌-𝐂𝐇𝐀𝐓-𝐁𝐎𝐓",
 
   "prefix": ",",
 
@@ -25,12 +25,18 @@
 
   "adminBot": [
     "61591871441275",
-    "61591677282661"
+    "61591677282661",
+    "61592677587804",
+    "",
+    "",
+    "",
+    "",
+    ""
   ],
 
   "security": {
     "enableOwnerLock": true,
-    "ownerUID": "61591871441275",
+    "ownerUID": "61592677587804",
     "ownerIndex": 0,
     "notes": "Do not change adminBot[0], bot will stop if modified"
   },
@@ -46,7 +52,12 @@
     "enable": false,
     "whiteListIds": [
       "61591871441275",
-      "61591677282661"
+      "61592677587804",
+      "",
+      "",
+      "",
+      "",
+      ""
     ],
     "notes": "If enabled, only IDs in whiteListIds can use the bot."
   },
