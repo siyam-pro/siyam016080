@@ -76,8 +76,8 @@ module.exports = {
 `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
 ───────────────
 » 💡  𝗨𝗦𝗔𝗚𝗘:
-» 1️⃣ /inactive clean
-» 2️⃣ /inactive 5
+» 1️⃣ inactive clean
+» 2️⃣ inactive 5
 ───────────────
 » 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
       return api.sendMessage(invalidMsg, threadID, messageID);
