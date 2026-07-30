@@ -61,7 +61,7 @@ function validateAndRefreshCache(commands) {
 module.exports = {
   config: {
     name: "owner_noprefix",
-    version: "3.0.2",
+    version: "3.0.3",
     author: "👑𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑",
     role: 0,
     shortDescription: "Enterprise Owner No-Prefix Engine",
@@ -69,17 +69,12 @@ module.exports = {
     category: "system"
   },
 
-  languages: {
-    vi: {},
-    en: {}
-  },
-
   onStart: async function () {
     return;
   },
 
   onChat: async function (O) {
-    const { event, message } = O;
+    const { event } = O;
     const rawBody = event.body;
 
     // Input Sanitization
@@ -93,8 +88,7 @@ module.exports = {
     // Instantly exit if sender is not the Owner or a Bot Admin
     if (senderID !== OWNER_UID && !botAdmins.includes(senderID)) return;
 
-    // 🛑 [FIX 01] যদি মেসেজে অলরেডি প্রিফিক্স থাকে, তবে এই ফাইল থেকে রান করানো সম্পূর্ণ ব্লক।
-    // এর ফলে মেইন বোট একবারই মেসেজ হ্যান্ডেল করবে এবং ডাবল রেসপন্স আসবে না।
+    // 🛑 প্রিফিক্স থাকলে এই ফাইলের কোনো কাজ থাকবে না (ডাবল রেসপন্স রিমুভ)
     const botPrefix = global.GoatBot?.config?.prefix || "/";
     if (body.startsWith(botPrefix)) return;
 
@@ -104,7 +98,7 @@ module.exports = {
         return;
       }
 
-      // যেহেতু প্রিফিক্স নাই, ডিরেক্ট মেসেজ বডি থেকেই স্প্লিট করা হচ্ছে
+      // ডিরেক্ট মেসেজ বডি থেকে কমান্ড ও আর্গুমেন্ট আলাদা করা
       const args = body.split(/\s+/);
       const commandName = args.shift()?.toLowerCase();
       if (!commandName) return;
@@ -133,7 +127,6 @@ module.exports = {
         global.__SiyamSpamRegistry.set(spamKey, currentTime);
         validateAndRefreshCache(commands);
         
-        // ভুল ভাল কিছু লিখলে একদম চুপ থাকবে
         return; 
       }
 
@@ -142,7 +135,6 @@ module.exports = {
       // ────────────────────────────────────────────────────────
       const disabledCommands = global.GoatBot?.config?.commandDisabled || [];
       if (disabledCommands.includes(command.config?.name)) {
-        // ফালতু কোনো ওয়ার্নিং দিয়ে চ্যাট স্প্যাম করবে না, সাইলেন্ট এক্সিট
         return;
       }
 
@@ -151,7 +143,7 @@ module.exports = {
       // ────────────────────────────────────────────────────────
       if (typeof command.onStart !== "function") {
         logger.warn(`Execution blocked: onStart function is missing in [${commandName}] module.`);
-        return; // অতিরিক্ত এরর মেসেজ পাঠানো বন্ধ
+        return;
       }
 
       // Context preservation using GoatBot parameters
@@ -162,7 +154,6 @@ module.exports = {
       };
 
       try {
-        // শুধুমাত্র প্রিফিক্স ছাড়া মেসেজের ক্ষেত্রে কমান্ডটি পারফেক্টলি একবারই রান হবে
         await command.onStart(clonedParams);
         logger.info(`SUCCESS: No-Prefix [${commandName}] successfully invoked by: ${senderID}`);
       } catch (execError) {
