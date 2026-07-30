@@ -9,11 +9,11 @@ if (!fs.existsSync(CACHE_DIR)) {
 }
 
 const videoList = [
-  { url: "https://files.catbox.moe/yior58.mp4", file: "video1.mp4" },
-  { url: "https://files.catbox.moe/c27nvc.mp4", file: "video2.mp4" },
+  { url: "https://files.catbox.moe/3nus2b.mp4", file: "video1.mp4" },
+  { url: "https://files.catbox.moe/t2kbfa.mp4", file: "video2.mp4" },
   { url: "https://files.catbox.moe/qu53g7.mp4", file: "video3.mp4" },
   { url: "https://files.catbox.moe/rzhmck.mp4", file: "video4.mp4" },
-  { url: "https://files.catbox.moe/6a7jbj.mp4", file: "video5.mp4" }
+  { url: "https://files.catbox.moe/g7jy2d.mp4", file: "video5.mp4" }
 ];
 
 const USER_COOLDOWN = 3 * 60 * 1000;
