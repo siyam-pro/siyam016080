@@ -5,7 +5,7 @@ module.exports = {
 	config: {
 		name: "jsontosqlite",
 		version: "1.4",
-		author: "FARHAN-KHAN",
+		author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
 		countDown: 5,
 		role: 2,
 		description: {
