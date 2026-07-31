@@ -38,7 +38,7 @@ module.exports = {
 `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
 ───────────────
 » 👩‍❤️‍👨 শুধু তুমি আর আমি,
-» 🥱 বাকি সব ফাউল প্রানী! 🥰
+» 🥱 বাকি সব ফাউল প্রানী!
 ───────────────
 » 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
         message.reply({ body: msg1, attachment: fs.createReadStream(ptth) }).then(() => fs.unlinkSync(ptth));
