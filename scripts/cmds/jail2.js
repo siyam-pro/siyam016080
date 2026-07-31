@@ -9,50 +9,81 @@ const baseApiUrl = async () => {
   return base.data.mahmud;
 };
 
-/**
-* @author MahMUD
-* @author: do not delete it
-*/
-
 module.exports = {
   config: {
     name: "jail2",
     aliases: [],
     version: "1.7",
-    author: "MahMUD",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     role: 0,
     category: "fun",
     cooldown: 10,
-    guide: "gay [mention-reply-UID]",
+    guide: {
+      en: "{pn} [mention/reply/UID]"
+    }
   },
 
   onStart: async function ({ api, event, args }) {
-     const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
-     if (module.exports.config.author !== obfuscatedAuthor) {
-     return api.sendMessage(
-     "You are not authorized to change the author name.", event.threadID, event.messageID );
-   }
-
     const { threadID, messageID, messageReply, mentions } = event;
-    let id2; if (messageReply) { id2 = messageReply.senderID; } else if (Object.keys(mentions).length > 0) {
-    id2 = Object.keys(mentions)[0];  } else if (args[0]) {  id2 = args[0]; } else {
-    return api.sendMessage( "baby, Mention, reply, or provide UID of the target.", threadID, messageID );
-  }
 
-   try {
-    const url = `${await baseApiUrl()}/api/dig?type=jail&user=${id2}`;
-    const response = await axios.get(url, { responseType: "arraybuffer" });
-    const filePath = path.join(__dirname, `jail_${id2}.png`);
-    fs.writeFileSync(filePath, response.data);
-
-     
-    api.sendMessage({ attachment: fs.createReadStream(filePath),
-    body: `𝐄𝐟𝐟𝐞𝐜𝐭 jail 𝐬𝐮𝐜𝐜𝐞𝐬𝐬𝐟𝐮𝐥 🐸`,
-     },
-    threadID, () => fs.unlinkSync(filePath),  messageID );
-  } catch (err) {
-    console.error(err);
-    api.sendMessage(`🥹error, contact MahMUD.`, threadID, messageID);
+    let id2;
+    if (messageReply) {
+      id2 = messageReply.senderID;
+    } else if (Object.keys(mentions).length > 0) {
+      id2 = Object.keys(mentions)[0];
+    } else if (args[0]) {
+      id2 = args[0];
+    } else {
+      const noTargetMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🐸 যাকে জেলে পুরতে চাওতাকে
+» ✅ তাকে মেনশন, রিপ্লাই বা
+» 🆔 ইউআইডি (UID) দাও!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return api.sendMessage(noTargetMsg, threadID, messageID);
     }
-  },
+
+    try {
+      const url = `${await baseApiUrl()}/api/dig?type=jail&user=${id2}`;
+      const response = await axios.get(url, { responseType: "arraybuffer" });
+
+      const cacheDir = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+
+      const filePath = path.join(cacheDir, `jail_${id2}_${Date.now()}.png`);
+      fs.writeFileSync(filePath, response.data);
+
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🐸 যাক পাঠানোঘরেষে
+» 🤧 অবশেষে তোকে শ্রীঘরে
+» 🥱 পাঠানো গেল! 😂
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      return api.sendMessage(
+        {
+          attachment: fs.createReadStream(filePath),
+          body: successMsg
+        },
+        threadID,
+        () => {
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        },
+        messageID
+      );
+    } catch (err) {
+      console.error(err);
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ছবি তৈরি করতে সমস্যা হয়েছে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return api.sendMessage(errorMsg, threadID, messageID);
+    }
+  }
 };
