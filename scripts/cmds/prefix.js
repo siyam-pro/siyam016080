@@ -3,13 +3,11 @@ const moment = require("moment-timezone");
 
 const getStreamFromURL = global.utils.getStreamFromURL;
 
-// ✅ VIDEO + IMAGE SUPPORT (both work)
 const mediaList = [
-  "https://files.catbox.moe/apl9z8.jpg",
-  "https://files.catbox.moe/o2ocsw.jpg"
+  "https://tmpfiles.org/dl/wdwFibqdw8im/catbox_1785488054781.gif",
+  "https://tmpfiles.org/dl/wCwXisPFpvOc/catbox_1785488006710.gif"
 ];
 
-// ✅ per-thread toggle storage
 global.GoatBot.prefixVideoToggle = global.GoatBot.prefixVideoToggle || {};
 
 module.exports = {
@@ -121,7 +119,6 @@ module.exports = {
 
     const owner = "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
     
-    // ✅ Automatically load total loaded commands count
     const totalCommands = global.GoatBot.commands ? global.GoatBot.commands.size : 0;
 
     const design1 = `╭👑 𝐏𝐑𝐄𝐅𝐈𝐗 𝐏𝐀𝐍𝐄𝐋 👑 ╮
