@@ -9,37 +9,34 @@ const mahmud = async () => {
   return base.data.mahmud;
 };
 
-/**
- * @author MahMUD
- * @author: do not delete it
- */
-
 module.exports = {
   config: {
     name: "kiss",
     version: "1.7",
-    author: "MahMUD",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     longDescription: "Generate anime-style kiss image",
     category: "love",
-    guide: "{pn} @mention"
+    guide: {
+      en: "{pn} @mention"
+    }
   },
 
   onStart: async function ({ message, event, api }) {
-    try {
-      const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
-      if (module.exports.config.author.trim() !== obfuscatedAuthor) {
-        return api.sendMessage(
-          "❌ | You are not authorized to change the author name.",
-          event.threadID,
-          event.messageID
-        );
-      }
+    const { threadID, messageID } = event;
 
+    try {
       const mention = Object.keys(event.mentions);
       if (mention.length === 0) {
-        return message.reply("Please mention someone to kiss 💋");
+        const noMentionMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 💋 কাকে কিস করতে চাও 
+» 🥱 তাকে মেনশন করো!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return message.reply(noMentionMsg);
       }
 
       const senderID = event.senderID;
@@ -54,24 +51,40 @@ module.exports = {
         { responseType: "arraybuffer" }
       );
 
+      const cacheDir = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+
       const imgPath = path.join(
-        __dirname,
-        `kiss_${senderID}_${targetID}.png`
+        cacheDir,
+        `kiss_${senderID}_${targetID}_${Date.now()}.png`
       );
       fs.writeFileSync(imgPath, Buffer.from(response.data, "binary"));
 
-      message.reply({
-        body: "💋 ইস বেবি, তোমাকে তো খেয়ে দিল এখন তো তোমার বিয়ে হবে না। 🤭🤣",
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🥵 উফ্ বেবি! তোমাকে তো 
+» 🤤 খেয়ে দিল, এখন তো 
+» 💋 তোমার বিয়ে হবে না!🤭🤣
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      await message.reply({
+        body: successMsg,
         attachment: fs.createReadStream(imgPath)
       });
 
-      setTimeout(() => {
-        if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
-      }, 10000);
+      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
 
     } catch (err) {
       console.error("Error in kiss command:", err.message || err);
-      message.reply("🥹 error, contact MahMUD.");
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ কিস করাতে সমস্যা হয়েছে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝HN𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(errorMsg);
     }
   }
 };
