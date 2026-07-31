@@ -1,36 +1,67 @@
 module.exports = {
   config: {
     name: "kickall",
-    version: "1.0",
-    author: "FARHAN-KHAN",
+    version: "2.0",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     role: 2,
     shortDescription: {
-      en: "Kick everyone from the group"
+      en: "Kick non-admin members from group"
     },
     category: "owner",
     guide: {
-      en: "{prefix}kickall"
+      en: "{pn}"
     }
   },
 
   onStart: async function ({ api, event }) {
-    const threadID = event.threadID;
-    const senderID = event.senderID;
+    const { threadID, messageID } = event;
 
     try {
       const threadInfo = await api.getThreadInfo(threadID);
+      const botID = api.getCurrentUserID();
 
-      if (!threadInfo.adminIDs.some(item => item.id === api.getCurrentUserID())) {
-        return api.sendMessage("❌ Bot must be an admin to kick members.", threadID);
+      // ১. চেক করা বট এডমিন কিনা
+      const groupAdminIDs = threadInfo.adminIDs.map(item => item.id);
+      if (!groupAdminIDs.includes(botID)) {
+        const noAdminMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ 𝗔𝗠𝗔𝗞𝗘 𝗚𝗥𝗢𝗨𝗣 
+» 🧭 𝗔𝗗𝗠𝗜𝗡 𝗞𝗔𝗥𝗢𝗡!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return api.sendMessage(noAdminMsg, threadID, messageID);
       }
 
-      const membersToKick = threadInfo.participantIDs.filter(id => id !== senderID && id !== api.getCurrentUserID());
+      // ২. বট এডমিন লিস্ট ফেচ করা
+      const botAdminIDs = global.GoatBot.config.adminBot || [];
+
+      // ৩. গ্রুপ এডমিন ও বট এডমিনদের সুরক্ষিত রেখে সাধারণ মেম্বারদের ফিল্টার করা
+      const membersToKick = threadInfo.participantIDs.filter(id => 
+        !groupAdminIDs.includes(id) && !botAdminIDs.includes(id) && id !== botID
+      );
 
       if (membersToKick.length === 0) {
-        return api.sendMessage("❌ No members to kick.", threadID);
+        const noMemberMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ 𝗞𝗜𝗖𝗞 𝗞𝗔𝗥𝗔𝗥 𝗠𝗢𝗧𝗢 
+» 🥶 𝗞𝗢𝗡𝗢 𝗠𝗘𝗠𝗕𝗘𝗥 𝗡𝗘𝗜!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return api.sendMessage(noMemberMsg, threadID, messageID);
       }
 
-      api.sendMessage(`⚠️ Kicking ${membersToKick.length} members...`, threadID, async () => {
+      const startMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ 𝗞𝗜𝗖𝗞𝗜𝗡𝗚 ${membersToKick.length} 
+» ⏳ 𝗠𝗘𝗠𝗕𝗘𝗥𝗦...
+» 🛡️ 𝗔𝗗𝗠𝗜𝗡𝗦 𝗔𝗥𝗘 𝗦𝗔𝗙𝗘!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      api.sendMessage(startMsg, threadID, async () => {
         for (const userID of membersToKick) {
           try {
             await api.removeUserFromGroup(userID, threadID);
@@ -38,11 +69,23 @@ module.exports = {
             console.log(`❌ Failed to kick ${userID}: ${e.message}`);
           }
         }
-      });
+      }, messageID);
+
     } catch (e) {
       console.error(e);
-      api.sendMessage("❌ An error occurred while trying to kick members.", threadID);
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ 𝗞𝗜𝗖𝗞 𝗞𝗔𝗥𝗧𝗘 
+» 🎀 𝗦𝗢𝗠𝗢𝗦𝗬𝗔 𝗛𝗢𝗬𝗘𝗖𝗛𝗘!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      api.sendMessage(errorMsg, threadID, messageID);
     }
-
   }
 };
+
+
+
+
+          
