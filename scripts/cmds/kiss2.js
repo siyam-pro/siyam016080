@@ -9,33 +9,22 @@ const baseApiUrl = async () => {
   return base.data.mahmud;
 };
 
-/**
-* @author MahMUD
-* @author: do not delete it
-*/
-
 module.exports = {
   config: {
     name: "kiss2",
     aliases: ["k2"],
     version: "1.7",
-    author: "MahMUD",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     role: 0,
     category: "fun",
     cooldown: 8,
-    guide: "kiss2 [mention/reply/UID]",
+    guide: {
+      en: "{pn} [mention/reply/UID]"
+    }
   },
 
   onStart: async function ({ api, event, args }) {
-    const obfuscatedAuthor = String.fromCharCode(77, 97, 104, 77, 85, 68);
-    if (module.exports.config.author !== obfuscatedAuthor) {
-      return api.sendMessage("You are not authorized to change the author name.", event.threadID, event.messageID);
-    }
-
     const { threadID, messageID, messageReply, mentions, senderID } = event;
-    const type = args[0];
-
-    if (!type) return api.sendMessage("Use: fun slap @tag", threadID, messageID);
 
     let id = senderID;
     let id2;
@@ -44,31 +33,58 @@ module.exports = {
       id2 = messageReply.senderID;
     } else if (Object.keys(mentions).length > 0) {
       id2 = Object.keys(mentions)[0];
-    } else if (args[1]) {
-      id2 = args[1];
+    } else if (args[0]) {
+      id2 = args[0];
     } else {
-      return api.sendMessage("Mention, reply, or provide UID of the target.", threadID, messageID);
+      const noTargetMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 💋 কাকে কিস করতে চাও 
+» 🤦তাকে মেনশন, রিপ্লাই বা 
+» 🫦 ইউআইডি (UID) দাও!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return api.sendMessage(noTargetMsg, threadID, messageID);
     }
 
     try {
       const url = `${await baseApiUrl()}/api/dig?type=kiss&user=${id}&user2=${id2}`;
 
       const response = await axios.get(url, { responseType: "arraybuffer" });
-      const filePath = path.join(__dirname, `kiss_${id2}.png`);
+      
+      const cacheDir = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+
+      const filePath = path.join(cacheDir, `kiss_${Date.now()}.png`);
       fs.writeFileSync(filePath, response.data);
 
-      api.sendMessage(
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 💋 জান উফ সেই স্বাদ! 🔥
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      return api.sendMessage(
         {
           attachment: fs.createReadStream(filePath),
-          body: `জান উফ সেই স্বাদ 💋`
+          body: successMsg
         },
         threadID,
-        () => fs.unlinkSync(filePath),
+        () => {
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        },
         messageID
       );
     } catch (err) {
       console.error(err);
-      api.sendMessage(`🥹error, contact MahMUD.`, threadID, messageID);
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ছবি তৈরি করতে সমস্যা হয়েছে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return api.sendMessage(errorMsg, threadID, messageID);
     }
   }
 };
