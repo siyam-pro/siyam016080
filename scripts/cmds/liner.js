@@ -5,24 +5,50 @@ async function liner(api, event, args, message) {
     const prompt = args.join(" ").trim();
 
     if (!prompt) {
-      return message.reply("Please provide a prompt.");
+      const noPromptMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 💡 প্রম্পট বা প্রশ্ন তো লেখো ভাই!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(noPromptMsg);
     }
 
     const response = await getLinerResponse(prompt);
 
     if (response && response.answer) {
-      message.reply(response.answer, (r, s) => {
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🤖  ${response.answer}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      message.reply(successMsg, (r, s) => {
         global.GoatBot.onReply.set(s.messageID, {
           commandName: module.exports.config.name,
           uid: event.senderID 
         });
       });
     } else {
-      message.reply("No response from Liner.");
+      const noResponseMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 📵 লাইনার এআই থেকে 
+» 🤔 কোনো উত্তর পাওয়া যায়নি!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      message.reply(noResponseMsg);
     }
   } catch (error) {
     console.error("Error:", error);
-    message.reply("An error occurred while processing your request.");
+    const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ উত্তর তৈরি করতে সমস্যা হয়েছে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+    message.reply(errorMsg);
   }
 }
 
@@ -41,7 +67,7 @@ module.exports = {
   config: {
     name: "liner",
     version: "1.0",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     role: 0,
     longDescription: "Liner AI assistant.",
     category: "ai",
