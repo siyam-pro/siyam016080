@@ -6,7 +6,7 @@ const request = require('request');
 module.exports.config = {
   name: "jail",
   version: "8.0",
-  author: "FARHAN-KHAN",
+  author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
   countDown: 10,
   role: 0,
   shortDescription: "Wanted with thin bars",
@@ -30,8 +30,10 @@ module.exports.onStart = async function ({ api, event, args, usersData }) {
   try {
     name = await usersData.getName(uid);
 
-    const avatarCache = path.join(__dirname, 'cache', `wanted_avatar_${uid}.jpg`);
-    const jailCache = path.join(__dirname, 'cache', `wanted_output_${Date.now()}.png`);
+    const cacheDir = path.join(__dirname, 'cache');
+    if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+
+    const avatarCache = path.join(cacheDir, `wanted_avatar_${uid}.jpg`);
 
     const imageUrl = `https://graph.facebook.com/${uid}/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
 
@@ -52,17 +54,33 @@ module.exports.onStart = async function ({ api, event, args, usersData }) {
     const generateWanted = async () => {
       try {
         const wantedPath = await generateThinBarsImage(avatarCache, name);
+
+        const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🔒 @${name} WANTED! Locked Up!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
         api.sendMessage({
-          body: `@${name} WANTED! 🔒 Locked Up! (Clear view)`,
+          body: successMsg,
           mentions: [{ tag: name, id: uid }],
           attachment: fs.createReadStream(wantedPath)
-        }, threadID, messageID);
+        }, threadID, () => {
+          setTimeout(() => {
+            [avatarCache, wantedPath].forEach(file => fs.existsSync(file) && fs.unlinkSync(file));
+          }, 10000);
+        }, messageID);
 
-        setTimeout(() => {
-          [avatarCache, wantedPath].forEach(file => fs.existsSync(file) && fs.unlinkSync(file));
-        }, 10000);
       } catch (genErr) {
-        api.sendMessage("⚠️ Poster error!", threadID, messageID);
+        const genErrMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⏳ জেলে ঢোকাতে
+» 💋 সমস্যা হয়েছে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        api.sendMessage(genErrMsg, threadID, messageID);
       }
     };
 
@@ -78,11 +96,17 @@ module.exports.onStart = async function ({ api, event, args, usersData }) {
 
   } catch (error) {
     console.error("Wanted Error:", error);
-    api.sendMessage("⚠️ Can't create! Using default.", threadID, messageID);
+    const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❎ জেলে ঢুকানো যাচ্ছে না! 
+» 🤦 ডিফল্ট চেষ্টা করা হচ্ছে।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+    api.sendMessage(errorMsg, threadID, messageID);
   }
 };
 
-// === Thin Bars + Clear Pic ===
 async function generateThinBarsImage(avatarPath, name) {
   const avatar = await loadImage(avatarPath);
   const width = 600;
@@ -90,11 +114,9 @@ async function generateThinBarsImage(avatarPath, name) {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
-  // Dark Blue BG
   ctx.fillStyle = '#0f172a';
   ctx.fillRect(0, 0, width, height);
 
-  // WANTED
   ctx.font = 'bold 100px Arial';
   ctx.fillStyle = '#ef4444';
   ctx.textAlign = 'center';
@@ -103,10 +125,9 @@ async function generateThinBarsImage(avatarPath, name) {
   ctx.fillText('WANTED', width / 2, 120);
   ctx.shadowColor = 'transparent';
 
-  // Avatar Circle (Clear)
   const centerX = width / 2;
   const centerY = height / 2 + 20;
-  const radius = 200; // Bigger for clear view
+  const radius = 200;
 
   ctx.save();
   ctx.beginPath();
@@ -115,13 +136,11 @@ async function generateThinBarsImage(avatarPath, name) {
   ctx.drawImage(avatar, centerX - radius, centerY - radius, radius * 2, radius * 2);
   ctx.restore();
 
-  // Thin Bars (On Top, Semi-Transparent for Clear Pic)
-  ctx.globalAlpha = 0.8; // Halka for clear pic
+  ctx.globalAlpha = 0.8;
   ctx.strokeStyle = '#000000';
-  ctx.lineWidth = 20; // Chikon
+  ctx.lineWidth = 20;
   ctx.lineCap = 'round';
 
-  // Vertical Bars
   const barCount = 8;
   const barSpacing = width / (barCount + 1);
   for (let i = 1; i <= barCount; i++) {
@@ -132,7 +151,6 @@ async function generateThinBarsImage(avatarPath, name) {
     ctx.stroke();
   }
 
-  // Horizontal Bars (Thin)
   ctx.lineWidth = 18;
   ctx.beginPath();
   ctx.moveTo(barSpacing, 260);
@@ -144,9 +162,8 @@ async function generateThinBarsImage(avatarPath, name) {
   ctx.lineTo(width - barSpacing, height - 260);
   ctx.stroke();
 
-  ctx.globalAlpha = 1.0; // Reset
+  ctx.globalAlpha = 1.0;
 
-  // Locked Up!
   ctx.font = 'italic 50px "Segoe UI"';
   ctx.fillStyle = '#ffffff';
   ctx.shadowColor = '#60a5fa';
@@ -154,12 +171,10 @@ async function generateThinBarsImage(avatarPath, name) {
   ctx.fillText('Locked Up!', width / 2, height - 100);
   ctx.shadowColor = 'transparent';
 
-  // Name
   ctx.font = 'bold 40px Arial';
   ctx.fillStyle = '#cbd5e1';
   ctx.fillText(name.toUpperCase(), width / 2, height - 50);
 
-  // Save
   const wantedPath = path.join(__dirname, 'cache', `wanted_thin_${Date.now()}.png`);
   fs.writeFileSync(wantedPath, canvas.toBuffer());
   return wantedPath;
