@@ -1,12 +1,13 @@
 const axios = require("axios");
 const fs = require("fs-extra");
+const path = require("path");
 
 module.exports = {
   config: {
     name: "imgen",
     aliases: ["imggen", "imagine"],
     version: "1.0",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 10,
     role: 0,
     shortDescription: "Generate AI image using imgen API",
@@ -18,12 +19,31 @@ module.exports = {
   },
 
   onStart: async function ({ api, event, args }) {
+    const { threadID, messageID, senderID } = event;
     const prompt = args.join(" ");
+
     if (!prompt) {
-      return api.sendMessage("❌ | Please provide a prompt.\nExample: .imgen A dragon flying over a castle", event.threadID, event.messageID);
+      const noPromptMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ একটি প্রম্পট লিখুন!
+» 💡 Example: .
+» 👑 imgen A dragon 
+» ✅ flying over a castle
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return api.sendMessage(noPromptMsg, threadID, messageID);
     }
 
-    const msg = await api.sendMessage("🧠 | Generating image, please wait...", event.threadID);
+    const waitMsgText = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⏳ ছবি তৈরি হচ্ছে...
+» 🧭 কিছুক্ষণ অপেক্ষা করুন...
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+    const msg = await api.sendMessage(waitMsgText, threadID);
 
     try {
       const response = await axios({
@@ -33,17 +53,41 @@ module.exports = {
         responseType: "arraybuffer"
       });
 
-      const imagePath = __dirname + `/cache/imgen_${event.senderID}.png`;
+      const cacheDir = path.join(__dirname, "cache");
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+
+      const imagePath = path.join(cacheDir, `imgen_${senderID}_${Date.now()}.png`);
       fs.writeFileSync(imagePath, Buffer.from(response.data, "binary"));
 
-      api.sendMessage({
-        body: `✅ | Prompt: ${prompt}`,
-        attachment: fs.createReadStream(imagePath)
-      }, event.threadID, () => fs.unlinkSync(imagePath), msg.messageID);
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ✅  Prompt: ${prompt}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      api.sendMessage(
+        {
+          body: successMsg,
+          attachment: fs.createReadStream(imagePath)
+        },
+        threadID,
+        () => {
+          if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
+        },
+        msg.messageID
+      );
 
     } catch (err) {
       console.error(err);
-      api.sendMessage("❌ | Failed to generate image. The server might be overloaded. Try again later.", event.threadID, msg.messageID);
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ছবি তৈরি করতে 
+» 🥶 সমস্যা হয়েছে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      api.sendMessage(errorMsg, threadID, msg.messageID);
     }
   }
 };
