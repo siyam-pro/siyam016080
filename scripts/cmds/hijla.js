@@ -3,24 +3,11 @@ const fs = require("fs-extra");
 const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 
-/* ================== 🔐 AUTHOR LOCK SYSTEM ================== */
-const REAL_AUTHOR = "FARHAN-KHAN";
-
-function checkAuthorLock(config) {
-  if (config.author !== REAL_AUTHOR) {
-    console.log("🚫 AUTHOR NAME CHANGED! FILE LOCKED.");
-
-    // Optional: File auto break system
-    throw new Error("⛔ This file is locked by FARHAN-KHAN. Don't change author!");
-  }
-}
-/* =========================================================== */
-
 module.exports = {
   config: {
     name: "hijla",
     version: "1.1.7",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     category: "fun",
@@ -28,20 +15,7 @@ module.exports = {
     guide: "{pn} @mention or reply"
   },
 
-/* --- [ 🔐 FILE_CREATOR_INFORMATION ] ---
- * 🤖 BOT NAME: FARHAN BOT
- * 👤 OWNER: FARHAN KHAN 
- * 🔗 FACEBOOK: https://www.facebook.com/MR.FARHAN.420
- * 📞 WHATSAPP: +8801934640061
- * 📍 LOCATION: CHUADANGA, BANGLADESH
- * 🛠️ PROJECT: FARHAN BOT PROJECT (2026)
- * --------------------------------------- */
-
   onStart: async function ({ api, event, message }) {
-
-    // 🔐 AUTHOR CHECK (RUN FIRST)
-    checkAuthorLock(module.exports.config);
-
     const { threadID, messageID, mentions, messageReply } = event;
 
     const cacheDir = path.join(process.cwd(), "cache");
@@ -53,7 +27,14 @@ module.exports = {
     } else if (messageReply) {
       targetID = messageReply.senderID;
     } else {
-      return message.reply("আরে মামা, কারে হিজলা সাজাবি তারে তো মেনশন দিলি না! 💃");
+      const noTargetMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ আরে মামা, কারে সাজাবি
+» 💃 তারে তো মেনশন দিলি না!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(noTargetMsg);
     }
 
     try {
@@ -63,7 +44,14 @@ module.exports = {
       const imgLink = "https://i.imgur.com/taT6Gb7.jpeg"; 
       const filePath = path.join(cacheDir, `hijla_milon_${Date.now()}.png`);
 
-      message.reply(`দাঁড়া মামা, ওরে হিজলা সাজাইয়া দিচ্ছি... ⏳💄`);
+      const loadingMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⏳ দাঁড়া মামা ওরে হিজলা
+» 🥵 সাজাইয়া দিচ্ছি... 💄
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      message.reply(loadingMsg);
 
       const accessToken = "6628568379|c1e620fa708a1d5696fb991c1bde5662";
       const targetPfpUrl = `https://graph.facebook.com/${targetID}/picture?width=512&height=512&access_token=${accessToken}`;
@@ -95,7 +83,15 @@ module.exports = {
       const buffer = canvas.toBuffer("image/png");
       fs.writeFileSync(filePath, buffer);
 
-      const finalCaption = `ঐ দেখ মামা, আমাদের নতুন হিজলা! 💃\n\nনাম: ${userName} 😂\nমামা হাততালি দে সবাই! 👏`;
+      const finalCaption = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 💃 ঐ দেখ মামা, আমাদের
+» 🥱 নতুন হিজলা!
+» 👤 𝗡𝗮𝗺𝗲: ${userName} 
+» 👏 মামা হাততালি দে সবাই!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
 
       return api.sendMessage({
         body: finalCaption,
@@ -107,7 +103,14 @@ module.exports = {
 
     } catch (e) {
       console.error("HIJLA ERROR:", e);
-      return message.reply("মামা হিজলাটা পালাইছে! আবার ট্রাই কর। ❌");
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ মামা ওটা পালাইছে!
+» 🆔 আবার ট্রাই কর।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(errorMsg);
     }
   }
 };
