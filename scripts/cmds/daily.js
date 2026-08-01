@@ -1,92 +1,71 @@
-const moment = require("moment-timezone");
+module.exports.config = {
+  name: "daily",
+  aliases: ["claim"],
+  version: "1.0",
+  author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
+  countDown: 5,
+  role: 0,
+  shortDescription: "Claim daily reward",
+  category: "economy"
+};
 
-module.exports = {
-	config: {
-		name: "daily",
-		version: "1.2",
-		author: "FARHAN-KHAN",
-		countDown: 5,
-		role: 0,
-		description: {
-			vi: "Nhận quà hàng ngày",
-			en: "Receive daily gift"
-		},
-		category: "game",
-		guide: {
-			vi: "   {pn}: Nhận quà hàng ngày"
-				+ "\n   {pn} info: Xem thông tin quà hàng ngày",
-			en: "   {pn}"
-				+ "\n   {pn} info: View daily gift information"
-		},
-		envConfig: {
-			rewardFirstDay: {
-				coin: 10000,
-				exp: 100
-			}
-		}
-	},
+module.exports.onStart = async function ({ api, event, usersData }) {
+  const { senderID, threadID, messageID } = event;
 
-	langs: {
-		vi: {
-			monday: "Thứ 2",
-			tuesday: "Thứ 3",
-			wednesday: "Thứ 4",
-			thursday: "Thứ 5",
-			friday: "Thứ 6",
-			saturday: "Thứ 7",
-			sunday: "Chủ nhật",
-			alreadyReceived: "Bạn đã nhận quà rồi",
-			received: "Bạn đã nhận được %1 coin và %2 exp"
-		},
-		en: {
-			monday: "Monday",
-			tuesday: "Tuesday",
-			wednesday: "Wednesday",
-			thursday: "Thursday",
-			friday: "Friday",
-			saturday: "Saturday",
-			sunday: "Sunday",
-			alreadyReceived: "You have already received the gift",
-			received: "You have received %1 coin and %2 exp"
-		}
-	},
+  const cooldown = 24 * 60 * 60 * 1000; // 24h
+  const reward = Math.floor(Math.random() * 5000) + 1000;
 
-	onStart: async function ({ args, message, event, envCommands, usersData, commandName, getLang }) {
-		const reward = envCommands[commandName].rewardFirstDay;
-		if (args[0] == "info") {
-			let msg = "";
-			for (let i = 1; i < 8; i++) {
-				const getCoin = Math.floor(reward.coin * (1 + 20 / 100) ** ((i == 0 ? 7 : i) - 1));
-				const getExp = Math.floor(reward.exp * (1 + 20 / 100) ** ((i == 0 ? 7 : i) - 1));
-				const day = i == 7 ? getLang("sunday") :
-					i == 6 ? getLang("saturday") :
-						i == 5 ? getLang("friday") :
-							i == 4 ? getLang("thursday") :
-								i == 3 ? getLang("wednesday") :
-									i == 2 ? getLang("tuesday") :
-										getLang("monday");
-				msg += `${day}: ${getCoin} coin, ${getExp} exp\n`;
-			}
-			return message.reply(msg);
-		}
+  const userData = await usersData.get(senderID);
 
-		const dateTime = moment.tz("Asia/Ho_Chi_Minh").format("DD/MM/YYYY");
-		const date = new Date();
-		const currentDay = date.getDay(); // 0: sunday, 1: monday, 2: tuesday, 3: wednesday, 4: thursday, 5: friday, 6: saturday
-		const { senderID } = event;
+  if (!userData.data) userData.data = {};
 
-		const userData = await usersData.get(senderID);
-		if (userData.data.lastTimeGetReward === dateTime)
-			return message.reply(getLang("alreadyReceived"));
+  const lastClaim = userData.data.lastDaily || 0;
+  const now = Date.now();
 
-		const getCoin = Math.floor(reward.coin * (1 + 20 / 100) ** ((currentDay == 0 ? 7 : currentDay) - 1));
-		const getExp = Math.floor(reward.exp * (1 + 20 / 100) ** ((currentDay == 0 ? 7 : currentDay) - 1));
-		userData.data.lastTimeGetReward = dateTime;
-		await usersData.set(senderID, {
-			money: userData.money + getCoin,
-			exp: userData.exp + getExp,
-			data: userData.data
-		});
-		message.reply(getLang("received", getCoin, getExp));
-	}
+  if (now - lastClaim < cooldown) {
+    const remaining = cooldown - (now - lastClaim);
+
+    const hours = Math.floor(remaining / (1000 * 60 * 60));
+    const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+
+    return api.sendMessage(
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⏳ 𝑾𝑨𝑰𝑻 𝑨 𝑴𝑶𝑴𝑬𝑵𝑻
+» 🎁 আপনি ইতিমধ্যে আজকের
+» ✅  রিওয়ার্ড সংগ্রহ করেছেন!
+» ⏱️ আবার চেষ্টা করুন: ${hours}
+» 🐦‍🔥 ঘণ্টা ${minutes} মিনিট পর।
+───────────────
+» 🧚‍♀️𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`,
+      threadID,
+      messageID
+    );
+  }
+
+  const currentMoney = userData.data.money || 0;
+  const newBalance = currentMoney + reward;
+
+  await usersData.set(senderID, {
+    data: {
+      ...userData.data,
+      money: newBalance,
+      lastDaily: now
+    }
+  });
+
+  api.sendMessage(
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🎁 𝑫𝑨𝑰𝑳𝒀 𝑹𝑬𝑾𝑨𝑹𝑫
+» 🎉 অভিনন্দন! আপনি 
+» 📡 দৈনিক বোনাস পেয়েছেন।
+» 💵 প্রাপ্তি: ${reward}
+» 🏦 নতুন ব্যালেন্স: 
+» 🛡️ ${newBalance}
+───────────────
+» 🧚‍♀️𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`,
+    threadID,
+    messageID
+  );
 };
