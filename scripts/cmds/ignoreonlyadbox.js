@@ -3,7 +3,7 @@ module.exports = {
 		name: "ignoreonlyadbox",
 		aliases: ["ignoreadboxonly", "ignoreadminboxonly"],
 		version: "1.2",
-		author: "FARHAN-KHAN",
+		author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
 		countDown: 5,
 		role: 2,
 		description: {
@@ -33,14 +33,14 @@ module.exports = {
 			ignoreList: "📑 Danh sách lệnh bỏ qua trong nhóm bạn:\n%1"
 		},
 		en: {
-			missingCommandNameToAdd: "⚠️ Please enter the command name you want to add to the ignore list",
-			missingCommandNameToDelete: "⚠️ Please enter the command name you want to delete from the ignore list",
-			commandNotFound: "❌ Command \"%1\" not found in bot's command list",
-			commandAlreadyInList: "❌ Command \"%1\" already in ignore list",
-			commandAdded: "✅ Added command \"%1\" to ignore list",
-			commandNotInList: "❌ Command \"%1\" not in ignore list",
-			commandDeleted: "✅ Removed command \"%1\" from ignore list",
-			ignoreList: "📑 Ignore list in your group:\n%1"
+			missingCommandNameToAdd: "⚠️ 𝐏𝐥𝐞𝐚𝐬𝐞 𝐞𝐧𝐭𝐞𝐫 𝐭𝐡𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 𝐧𝐚𝐦𝐞 𝐲𝐨𝐮 𝐰𝐚𝐧𝐭 𝐭𝐨 𝐚𝐝𝐝 𝐭𝐨 𝐭𝐡𝐞 𝐢𝐠𝐧𝐨𝐫𝐞 𝐥𝐢𝐬𝐭",
+			missingCommandNameToDelete: "⚠️ 𝐏𝐥𝐞𝐚𝐬𝐞 𝐞𝐧𝐭𝐞𝐫 𝐭𝐡𝐞 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 𝐧𝐚𝐦𝐞 𝐲𝐨𝐮 𝐰𝐚𝐧𝐭 𝐭𝐨 𝐝𝐞𝐥𝐞𝐭𝐞 𝐟𝐫𝐨𝐦 𝐭𝐡𝐞 𝐢𝐠𝐧𝐨𝐫𝐞 𝐥𝐢𝐬𝐭",
+			commandNotFound: "❌ 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 \"%1\" 𝐧𝐨𝐭 𝐟𝐨𝐮𝐧𝐝 𝐢𝐧 𝐛𝐨𝐭'𝐬 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 𝐥𝐢𝐬𝐭",
+			commandAlreadyInList: "❌ 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 \"%1\" 𝐚𝐥𝐫𝐞𝐚𝐝𝐲 𝐢𝐧 𝐢𝐠𝐧𝐨𝐫𝐞 𝐥𝐢𝐬𝐭",
+			commandAdded: "✅ 𝐀𝐝𝐝𝐞𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 \"%1\" 𝐭𝐨 𝐢𝐠𝐧𝐨𝐫𝐞 𝐥𝐢𝐬𝐭",
+			commandNotInList: "❌ 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 \"%1\" 𝐧𝐨𝐭 𝐢𝐧 𝐢𝐠𝐧𝐨𝐫𝐞 𝐥𝐢𝐬𝐭",
+			commandDeleted: "✅ 𝐑𝐞𝐦𝐨𝐯𝐞𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝 \"%1\" 𝐟𝐫𝐨𝐦 𝐢𝐠𝐧𝐨𝐫𝐞 𝐥𝐢𝐬𝐭",
+			ignoreList: "📑 𝐈𝐠𝐧𝐨𝐫𝐞 𝐥𝐢𝐬𝐭 𝐢𝐧 𝐲𝐨𝐮𝐫 𝐠𝐫𝐨𝐮𝐩:\n%1"
 		}
 	},
 
