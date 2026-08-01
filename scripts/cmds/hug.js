@@ -7,7 +7,8 @@ module.exports.config = {
   name: "hug",
   version: "3.1.1",
   permission: 0,
-  credits: "Joy",
+  author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
+  credits: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
   description: "Hug someone 🥰",
   prefix: true,
   category: "canvas",
@@ -64,14 +65,19 @@ async function makeImage({ one, two }) {
   const finalImg = await bg.getBufferAsync("image/png");
   fs.writeFileSync(pathImg, finalImg);
 
-  fs.unlinkSync(avatarOnePath);
-  fs.unlinkSync(avatarTwoPath);
+  if (fs.existsSync(avatarOnePath)) fs.unlinkSync(avatarOnePath);
+  if (fs.existsSync(avatarTwoPath)) fs.unlinkSync(avatarTwoPath);
 
   return pathImg;
 }
 
 function stylishCaption(name) {
-  return `╭╼|━━━━━━━━━━━━|╾╮\n🤗 ${name} তোমাকে কে একটুখানি হাগ দিলাম 🥰\n╰╼|━━━━━━━━━━━━|╾╯`;
+  return `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🤗 ${name} তোমাকে 🥰
+» 😘 জড়িয়ে ধরে হাগ দিলাম
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
 }
 
 module.exports.run = async function ({ api, event }) {
@@ -79,11 +85,14 @@ module.exports.run = async function ({ api, event }) {
   const mentionIDs = Object.keys(mentions);
 
   if (mentionIDs.length === 0) {
-    return api.sendMessage(
-      `╭╼|━━━━━━━━━━━━━━|╾╮\n🥺 দয়া করে একজনকে মেনশন করো যাকে হাগ দিতে চাও!\n╰╼|━━━━━━━━━━━━━━|╾╯`,
-      threadID,
-      messageID
-    );
+    const noMentionMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🥺 দয়া করে যাকে হাগ 
+» 🥵 দিতে চান মেনশন করুন!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+    return api.sendMessage(noMentionMsg, threadID, messageID);
   }
 
   const one = senderID;
@@ -99,16 +108,21 @@ module.exports.run = async function ({ api, event }) {
         attachment: fs.createReadStream(imgPath)
       },
       threadID,
-      () => fs.unlinkSync(imgPath),
+      () => {
+        if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+      },
       messageID
     );
   } catch (err) {
     console.error(err);
-    return api.sendMessage(
-      `╭╼|━━━━━━━━━━━━━━|╾╮\n❌ ছবিটি তৈরি করতে সমস্যা হয়েছে। পরে আবার চেষ্টা করো!\n╰╼|━━━━━━━━━━━━━━|╾╯`,
-      threadID,
-      messageID
-    );
+    const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ছবিটি তৈরি করতে 
+» 🤧 সমস্যা হয়েছে। 
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+    return api.sendMessage(errorMsg, threadID, messageID);
   }
 };
 
