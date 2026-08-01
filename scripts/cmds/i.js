@@ -4,7 +4,7 @@ module.exports = {
   config: {
     name: "i",
     version: "1.2",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     longDescription: {
@@ -22,7 +22,15 @@ module.exports = {
     try {
       const text = args.join(" ");
       if (!text) {
-        return message.reply("⚠️ Please provide a prompt.");
+        const noPromptMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ একটি প্রম্পট দিন!
+» 💡 Example: {pn} 
+» 🧭 cute girl | 4
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return message.reply(noPromptMsg);
       }
 
       let prompt, quantity;
@@ -30,7 +38,14 @@ module.exports = {
         [prompt, quantity] = text.split("|").map(str => str.trim());
         quantity = parseInt(quantity);
         if (isNaN(quantity) || quantity < 1 || quantity > 10) {
-          return message.reply("⚠️ Quantity must be a number between 1 and 10.");
+          const invalidQtyMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ ছবির সংখ্যা ১ থেকে 
+» 🎀 ১০ এর মধ্যে হতে হবে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+          return message.reply(invalidQtyMsg);
         }
       } else {
         prompt = text;
@@ -38,18 +53,26 @@ module.exports = {
       }
 
       api.setMessageReaction("⏳", event.messageID, () => {}, true);
-      const waitingMessage = await message.reply(`✅ | Generating ${quantity} image(s)...`);
+
+      const generatingMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⏳ ${quantity} টি 
+» 🖼️ ছবি তৈরি করা হচ্ছে 
+» ⏳ অপেক্ষা করুন...
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      const waitingMessage = await message.reply(generatingMsg);
 
       const imageUrls = [];
-
       const ratio = "1:1";
 
       for (let i = 0; i < quantity; i++) {
         const res = await axios.get(`https://www.ai4chat.co/api/image/generate`, {
           params: {
             prompt,
-            aspect_ratio:ratio
-
+            aspect_ratio: ratio
           }
         });
 
@@ -58,17 +81,47 @@ module.exports = {
         }
       }
 
+      if (imageUrls.length === 0) {
+        api.setMessageReaction("❌", event.messageID, () => {}, true);
+        await api.unsendMessage(waitingMessage.messageID);
+        const failMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ কোনো ছবি জেনারেট 
+» 🤧 করা সম্ভব হয়নি!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return message.reply(failMsg);
+      }
+
       const imageStreams = await Promise.all(
         imageUrls.map(url => global.utils.getStreamFromURL(url))
       );
 
-      await message.reply({ attachment: imageStreams });
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ✅ 𝗣𝗿𝗼𝗺𝗽𝘁: ${prompt}
+» 🖼️ 𝗜𝗺𝗮𝗴𝗲𝘀: ${imageUrls.length}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      await message.reply({ body: successMsg, attachment: imageStreams });
 
       api.setMessageReaction("✅", event.messageID, () => {}, true);
       await api.unsendMessage(waitingMessage.messageID);
+
     } catch (error) {
       console.error("Image generation error:", error.message || error);
-      message.reply("❌ Failed to generate images.");
+      api.setMessageReaction("❌", event.messageID, () => {}, true);
+
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ছবি তৈরি করতে ব্যর্থ 
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      message.reply(errorMsg);
     }
   },
 };
