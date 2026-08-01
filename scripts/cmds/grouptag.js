@@ -3,7 +3,7 @@ module.exports = {
 		name: "grouptag",
 		aliases: ["grtag"],
 		version: "1.5",
-		author: "FARHAN-KHAN",
+		author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
 		countDown: 5,
 		role: 0,
 		description: {
@@ -12,19 +12,29 @@ module.exports = {
 		},
 		category: "info",
 		guide: {
-			vi: "   {pn} add <groupTagName> <@tags>: dùng để thêm nhóm tag mới hoặc thêm thành viên vào nhóm tag đã có"
-				+ "\n   Ví dụ:"
-				+ "\n    {pn} add TEAM1 @tag1 @tag2"
-				+ "\n\n   {pn} del <groupTagName> <@tags>: dùng để xóa các thành viên được tag khỏi nhóm tag <groupTagName>"
-				+ "\n   Ví dụ:"
-				+ "\n    {pn} del TEAM1 @tag1 @tag2"
-				+ "\n\n   {pn} remove <groupTagName>: dùng để xóa nhóm tag"
-				+ "\n   Ví dụ:"
-				+ "\n    {pn} remove TEAM1"
-				+ "\n\n	 {pn} tag <groupTagName>: dùng để tag nhóm tag"
-				+ "\n\n   {pn} rename <groupTagName> | <newGroupTagName>: dùng để đổi tên nhóm tag"
-				+ "\n\n   {pn} [list | all]: dùng để xem danh sách các nhóm tag trong nhóm chat của bạn"
-				+ "\n\n   {pn} info <groupTagName>: dùng để xem thông tin của nhóm tag",
+			bn: "🏷️ গ্রুপ ট্যাগ (GroupTag) ব্যবহারের গাইডলাইন:\n"
+				+ "━━━━━━━━━━━━━━━━━━━\n"
+				+ "➕ নতুন ট্যাগ গ্রুপ তৈরি বা মেম্বার যোগ করা:\n"
+				+ "☞ {pn} add <গ্রুপের_নাম> <@মেম্বারদের_ট্যাগ>\n"
+				+ "উদাহরণ: {pn} add TEAM1 @tag1 @tag2\n\n"
+				+ "📣 নির্দিষ্ট গ্রুপের সবাইকে একসাথে ট্যাগ করা:\n"
+				+ "☞ {pn} tag <গ্রুপের_নাম>\n"
+				+ "উদাহরণ: {pn} tag TEAM1\n\n"
+				+ "📋 সব ট্যাগ গ্রুপের তালিকা দেখা:\n"
+				+ "☞ {pn} list অথবা {pn} all\n\n"
+				+ "ℹ️ নির্দিষ্ট গ্রুপের তথ্য দেখা:\n"
+				+ "☞ {pn} info <গ্রুপের_নাম>\n"
+				+ "উদাহরণ: {pn} info TEAM1\n\n"
+				+ "➖ গ্রুপ থেকে নির্দিষ্ট মেম্বার বাদ দেওয়া:\n"
+				+ "☞ {pn} del <গ্রুপের_নাম> <@মেম্বারদের_ট্যাগ>\n"
+				+ "উদাহরণ: {pn} del TEAM1 @tag1\n\n"
+				+ "✏️ ট্যাগ গ্রুপের নাম পরিবর্তন করা:\n"
+				+ "☞ {pn} rename <পুরনো_নাম> | <নতুন_নাম>\n"
+				+ "উদাহরণ: {pn} rename TEAM1 | SQUAD1\n\n"
+				+ "🗑️ পুরো ট্যাগ গ্রুপটি মুছে ফেলা:\n"
+				+ "☞ {pn} remove <গ্রুপের_নাম>\n"
+				+ "উদাহরণ: {pn} remove TEAM1\n"
+				+ "━━━━━━━━━━━━━━━━━━━",
 			en: "   {pn} add <groupTagName> <@tags>: use to add new group tag or add members to group tag"
 				+ "\n   Example:"
 				+ "\n    {pn} add TEAM1 @tag1 @tag2"
@@ -34,7 +44,7 @@ module.exports = {
 				+ "\n\n   {pn} remove <groupTagName>: use to remove group tag"
 				+ "\n   Example:"
 				+ "\n    {pn} remove TEAM1"
-				+ "\n\n	 {pn} tag <groupTagName>: use to tag group tag"
+				+ "\n\n   {pn} tag <groupTagName>: use to tag group tag"
 				+ "\n\n   {pn} rename <groupTagName> | <newGroupTagName>: use to rename group tag"
 				+ "\n\n   {pn} [list | all]: use to view list of group tag in your group chat"
 				+ "\n\n   {pn} info <groupTagName>: use to view info of group tag"
