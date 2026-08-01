@@ -17,7 +17,7 @@ module.exports = {
 
   onStart: async function ({ args, message, event }) {
 
-    const DUMMY_OWNER = "61591371273779"; // এখানে আপনার ইউআইডি বসান
+    const DUMMY_OWNER = "61592677587804"; // এখানে আপনার ইউআইডি বসান
 
  
     const _0x1b4f = [
