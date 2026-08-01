@@ -16,7 +16,6 @@ module.exports = {
   onStart: async function ({ api, event, args, commandName }) {
     const tID = event.threadID;
 
-    // যদি সরাসরি gcadminlist বা gcremove অ্যালিয়াস ব্যবহার করা হয়
     if (commandName === "gcadminlist") {
       return global.gcAdminList(api, event, tID);
     }
@@ -59,7 +58,6 @@ module.exports = {
   }
 };
 
-// গ্লোবাল অবজেক্টে অ্যাডমিন লিস্ট সাময়িকভাবে সেভ রাখার জন্য
 global.gcAdminSession = global.gcAdminSession || {};
 
 global.gcAdminList = async function (api, event, tID) {
@@ -68,17 +66,38 @@ global.gcAdminList = async function (api, event, tID) {
     const adminIDs = threadInfo.adminIDs.map(item => item.id);
     
     if (adminIDs.length === 0) {
-      return api.sendMessage("❌ এই গ্রুপে কোনো অ্যাডমিন খুঁজে পাওয়া যায়নি।", tID);
+      return api.sendMessage("❌ এই গ্রুপে কোনো অ্যাডমিন খুঁজে পাওয়া যায়নি।", tID);
     }
 
-    const userInfo = await api.getUserInfo(adminIDs);
+    let userInfo = {};
+    try {
+      userInfo = await api.getUserInfo(adminIDs);
+    } catch (e) {}
+
+    const userInfoMap = threadInfo.userInfo ? threadInfo.userInfo.reduce((acc, cur) => {
+      acc[cur.id] = cur.name;
+      return acc;
+    }, {}) : {};
+
     let msg = `👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n\n✦ 𝗚𝗥𝗢𝗨𝗣 𝗔𝗗𝗠𝗜𝗡 𝗟𝗜𝗦𝗧\n\n`;
     
     const currentAdmins = [];
 
     let index = 1;
     for (const id of adminIDs) {
-      const name = userInfo[id]?.name || "Facebook User";
+      let name = userInfo[id]?.name || userInfoMap[id];
+      
+      if (!name || name === "Facebook User") {
+        try {
+          const singleInfo = await api.getUserInfo(id);
+          if (singleInfo[id]?.name) name = singleInfo[id].name;
+        } catch (e) {}
+      }
+      
+      if (!name || name === "Facebook User") {
+        name = `User (${id})`;
+      }
+
       msg += `${index}. ${name}\n`;
       currentAdmins.push({ id, name });
       index++;
@@ -86,12 +105,11 @@ global.gcAdminList = async function (api, event, tID) {
 
     msg += `\n━━━━━━━━━━━━\n💡 অ্যাডমিন রিমুভ করতে লিখুন:\ngcremove [নাম্বার]\n\n✦ 𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧`;
     
-    // সেশন সেভ করে রাখা হচ্ছে যাতে নাম্বার দিয়ে রিমুভ করা যায়
     global.gcAdminSession[tID] = currentAdmins;
 
     api.sendMessage(msg, tID);
   } catch (err) {
-    api.sendMessage("❌ অ্যাডমিন তালিকা লোড করতে সমস্যা হয়েছে।", tID);
+    api.sendMessage("❌ অ্যাডমিন তালিকা লোড করতে সমস্যা হয়েছে।", tID);
   }
 };
 
@@ -103,7 +121,7 @@ global.gcRemoveByIndex = async function (api, event, tID, index) {
   }
 
   if (isNaN(index) || index < 0 || index >= session.length) {
-    return api.sendMessage("⚠️ ভুল নাম্বার! তালিকা অনুযায়ী সঠিক নাম্বারটি দিন।", tID);
+    return api.sendMessage("⚠️ ভুল নাম্বার! তালিকা অনুযায়ী সঠিক নাম্বারটি দিন।", tID);
   }
 
   const targetAdmin = session[index];
@@ -111,7 +129,6 @@ global.gcRemoveByIndex = async function (api, event, tID, index) {
   try {
     await api.changeAdminStatus(tID, targetAdmin.id, false);
     
-    // সেশন থেকে রিমুভ করা অ্যাডমিনকে বাদ দেওয়া
     global.gcAdminSession[tID].splice(index, 1);
 
     api.sendMessage(
@@ -138,7 +155,7 @@ global.gcRemoveByIndex = async function (api, event, tID, index) {
 🔒 🇨🇭𝗲𝗰𝗸 𝗕𝗼𝘁 𝗣𝗲𝗿𝗺𝗶𝘀𝘀𝗶𝗼𝗻
 
 💡 【 👑-𝐒𝐈𝐘𝐀𝐌-👑 】⚠️ এই সদস্যকে Remove করা গেল না!
-🚫 Bot Admin নেই অথবা যাকে Remove করা হচ্ছে তার ক্ষমতা বটের চেয়ে বেশি।
+🚫 Bot Admin নেই অথবা যাকে Remove করা হচ্ছে তার ক্ষমতা বটের চেয়ে বেশি।
 
 ━━━━━━━━━━━━
 ✦ 𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧 𝗕𝗢𝗧`,
@@ -150,13 +167,14 @@ global.gcRemoveByIndex = async function (api, event, tID, index) {
 async function addAdmin(api, event, tID, target) {
   try {
     const uID = await getUID(api, event, target);
-    const userInfo = await api.getUserInfo(uID);
+    let userInfo = {};
+    try { userInfo = await api.getUserInfo(uID); } catch(e){}
     const name = userInfo[uID]?.name || uID;
 
     await api.changeAdminStatus(tID, uID, true);
 
     api.sendMessage(
-`👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+`👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝗔𝗦𝗔𝗡 👑
 
 ✦ 𝗔𝗗𝗠𝗜𝗡 𝗠𝗔𝗡𝗔𝗚𝗘𝗥
 
@@ -170,7 +188,7 @@ async function addAdmin(api, event, tID, target) {
     );
   } catch {
     api.sendMessage(
-`👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+`👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝗔𝗡 👑
 
 ✦ 𝗔𝗗𝗠𝗜𝗡 𝗠𝗔𝗡𝗔𝗚𝗘𝗥
 
@@ -190,13 +208,14 @@ async function addAdmin(api, event, tID, target) {
 async function removeAdmin(api, event, tID, target) {
   try {
     const uID = await getUID(api, event, target);
-    const userInfo = await api.getUserInfo(uID);
+    let userInfo = {};
+    try { userInfo = await api.getUserInfo(uID); } catch(e){}
     const name = userInfo[uID]?.name || uID;
 
     await api.changeAdminStatus(tID, uID, false);
 
     api.sendMessage(
-`👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+`👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝗔𝗡 👑
 
 ✦ 𝗔𝗗𝗠𝗜𝗡 𝗠𝗔𝗡𝗔𝗚𝗘𝗥
 
@@ -210,7 +229,7 @@ async function removeAdmin(api, event, tID, target) {
     );
   } catch {
     api.sendMessage(
-`👑 𝗕𝗢𝗧 𝗢𝗪Ｎ𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+`👑 𝗢𝗪𝗡𝗘𝗥 ⇢ 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝗔𝗡 👑
 
 ✦ 𝗔𝗗𝗠𝗜𝗡 𝗠𝗔𝗡𝗔𝗚𝗘𝗥
 
