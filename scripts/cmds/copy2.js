@@ -4,7 +4,7 @@ if (!global.siyamTextCooldown) {
 
 module.exports = {
     config: {
-        name: "copy",
+        name: "copy2",
         version: "7.0.0",
         author: "SIYAM HASAN",
         role: 0,
