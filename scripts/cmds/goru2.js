@@ -7,7 +7,7 @@ module.exports = {
   config: {
     name: "goru2",
     version: "2.6.1",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     category: "fun",
@@ -16,11 +16,8 @@ module.exports = {
   },
 
 /* --- [ 🔐 INTERNAL_SECURE_METADATA ] ---
- * 🤖 BOT NAME: FARHAN BOT
- * 👤 OWNER: FARHAN KHAN 
- * 🔗 FACEBOOK: https://www.facebook.com/MR.FARHAN.420
- * 📞 WHATSAPP: +880 1934640061
- * 📍 LOCATION: KHULNA - CHUADANGA, BD
+ * 🤖 BOT NAME: NIJHUM BOT
+ * 👤 OWNER: SIYAM HASAN 
  * --------------------------------------- */
 
   onStart: async function ({ api, event, message }) {
@@ -35,7 +32,15 @@ module.exports = {
     } else if (messageReply) {
       targetID = messageReply.senderID;
     } else {
-      return message.reply("আরে বলদ, কারে গরু বানাবি তারে তো মেনশন দিলি না! 🐄");
+      const noTargetMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ আরে বলদ, কারে
+» 🐄 গরু বানাবি তারে
+» 📌 তো মেনশন দিলিনা!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(noTargetMsg);
     }
 
     try {
@@ -45,7 +50,16 @@ module.exports = {
       const imgLink = "https://i.imgur.com/pkoB67f.jpeg"; 
       const filePath = path.join(cacheDir, `goru_milon_${Date.now()}.png`);
 
-      message.reply("দাঁড়া মামা, ওরে গরু বানাইয়া ঘাস খাওয়ানোর ব্যবস্থা করতেছি... ⏳🔥");
+      const processMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⏳ দাঁড়া মামা, ওরে
+» 🐄 গরু বানাইয়া ঘাস
+» 🌿 খাওয়ানোর ব্যবস্থা
+» 🔥 করতেছি...
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      message.reply(processMsg);
 
       const accessToken = "6628568379|c1e620fa708a1d5696fb991c1bde5662";
       const userPfpUrl = `https://graph.facebook.com/${senderID}/picture?width=512&height=512&access_token=${accessToken}`;
@@ -83,7 +97,15 @@ module.exports = {
       const buffer = canvas.toBuffer("image/png");
       fs.writeFileSync(filePath, buffer);
 
-      const finalCaption = `এই নে তোর গরুর ছবি! 🐄\n\nঐ ${userName}, এখন ঘাস খাওয়াইতে নিয়া যা নিজেরে। 😂`;
+      const finalCaption = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🐄 এই নে তোর বিদেশি গরুর!
+» 👤 ঐ @${userName},
+» 🌿 এখন ঘাস খাওয়াইতে
+» 😂 নিয়া যা নিজেরে।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
 
       return api.sendMessage({
         body: finalCaption,
@@ -95,7 +117,14 @@ module.exports = {
 
     } catch (e) {
       console.error("GORU ERROR:", e);
-      return message.reply("গরুটা পলাইয়া গেছে মামা! আবার ট্রাই কর। ❌");
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ গরুটা পলাইয়া গেছে মামা!
+» 🔄 আবার ট্রাই কর।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(errorMsg);
     }
   }
 };
