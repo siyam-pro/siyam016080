@@ -47,7 +47,7 @@ module.exports = {
       for (let i = 0; i < qtv2.length; i++) {
         const infu = await api.getUserInfo(qtv2[i].id);
         const name = infu[qtv2[i].id].name;
-        listad += '» 👤 ' + name + '\n';
+        listad += '» 🎀 ' + name + '\n';
       }
 
       let sex = threadInfo.approvalMode;
