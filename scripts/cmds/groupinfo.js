@@ -6,11 +6,11 @@ module.exports = {
     name: "groupinfo",
     aliases: ['boxinfo'],
     version: "1.0",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     shortDescription: "See Box info",
-    longDescription: "গ্রুপের যাবতীয় তথ্য দেখার জন্য",
+    longDescription: "গ্রুপের যাবতীয় তথ্য দেখার জন্য",
     category: "box chat",
     guide: {
       en: "{p}groupinfo",
@@ -47,14 +47,42 @@ module.exports = {
       for (let i = 0; i < qtv2.length; i++) {
         const infu = await api.getUserInfo(qtv2[i].id);
         const name = infu[qtv2[i].id].name;
-        listad += '• ' + name + '\n';
+        listad += '» 👤 ' + name + '\n';
       }
 
       let sex = threadInfo.approvalMode;
       var pd = sex == false ? 'Turned off' : 'Turned on';
 
+      const infoMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🏷️ গ্রুপের নাম:
+» 📛 ${threadName}
+» 🆔 গ্রুপ আইডি:
+» 🔢 ${id}
+» 🔰 অনুমোদন মোড:
+» ⚙️ ${pd}
+» 🎭 গ্রুপ ইমোজি:
+» 🎯 ${icon}
+» 👥 মোট মেম্বার:
+» 📊 ${threadMem} জন
+» 👨  ছেলে মেম্বার:
+» 👦 ${nam} জন
+» 👩 মেয়ে মেম্বার:
+» 👧 ${nu} জন
+» 👑 মোট এডমিন:
+» 🛡️ ${qtv} জন
+───────────────
+» 👑 এডমিনদের তালিকা:
+${listad.trim()}
+───────────────
+» 💬 মোট মেসেজ:
+» ✉️ ${sl} টি
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       var callback = () => api.sendMessage({
-        body: `🔧「 𝐆𝐂 𝐍𝐚𝐦𝐞 」: ${threadName}\n🔧「 𝐆𝐫𝐨𝐮𝐩 𝐈𝐃 」: ${id}\n🔧「 𝐀𝐩𝐩𝐫𝐨𝐯𝐚𝐥 」: ${pd}\n🔧「 𝐄𝐦𝐨𝐣𝐢 」: ${icon}\n🔧「 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 」: 𝐈𝐧𝐜𝐥𝐮𝐝𝐢𝐧𝐠 ${threadMem} 𝐌𝐞𝐦𝐛𝐞𝐫𝐬\n🔧「 𝐍𝐮𝐦𝐛𝐞𝐫 𝐎𝐟 𝐌𝐚𝐥𝐞𝐬 」: ${nam}\n🔧「 𝐍𝐮𝐦𝐛𝐞𝐫 𝐎𝐟 𝐅𝐞𝐦𝐚𝐥𝐞𝐬 」: ${nu}\n🔧「 𝐓𝐨𝐭𝐚𝐥 𝐀𝐝𝐦𝐢𝐧𝐢𝐬𝐭𝐫𝐚𝐭𝐨𝐫𝐬 」: ${qtv}\n「 𝐈𝐧𝐜𝐥𝐮𝐝𝐞 」:\n${listad}\n🔧「 𝐓𝐨𝐭𝐚𝐥 𝐍𝐮𝐦𝐛𝐞𝐫 𝐎𝐟 𝐌𝐞𝐬𝐬𝐚𝐠𝐞𝐬 」: ${sl} msgs.\n\n𝐌𝐚𝐝𝐞 𝐖𝐢𝐭𝐡 ❤️ 𝐁𝐲:-𝐅𝐚𝐫𝐡𝐚𝐧 𝐊𝐡𝐚𝐧`,
+        body: infoMsg,
         attachment: fs.createReadStream(__dirname + '/cache/thread.png')
       }, event.threadID, () => {
         if (fs.existsSync(__dirname + '/cache/thread.png')) fs.unlinkSync(__dirname + '/cache/thread.png');
@@ -62,7 +90,7 @@ module.exports = {
 
       // যদি গ্রুপের কোনো ছবি না থাকে তবে শুধু টেক্সট পাঠাবে
       if (!threadInfo.imageSrc) {
-        return api.sendMessage(`🔧「 𝐆𝐂 𝐍𝐚𝐦𝐞 」: ${threadName}\n🔧「 𝐆𝐫𝐨𝐮𝐩 𝐈𝐃 」: ${id}\n🔧「 𝐀𝐩𝐩𝐫𝐨𝐯𝐚𝐥 」: ${pd}\n🔧「 𝐄𝐦𝐨𝐣𝐢 」: ${icon}\n🔧「 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 」: 𝐈𝐧𝐜𝐥𝐮𝐝𝐢𝐧𝐠 ${threadMem} 𝐌𝐞𝐦𝐛𝐞𝐫𝐬\n🔧「 𝐍𝐮𝐦𝐛𝐞𝐫 𝐎𝐟 𝐌𝐚𝐥𝐞𝐬 」: ${nam}\n🔧「 𝐍𝐮𝐦𝐛𝐞𝐫 𝐎𝐟 𝐅𝐞𝐦𝐚𝐥𝐞𝐬 」: ${nu}\n\n𝐌𝐚𝐝𝐞 𝐖𝐢𝐭𝐡 ❤️ 𝐁𝐲: 𝐅𝐚𝐫𝐡𝐚𝐧 𝐊𝐡𝐚𝐧`, event.threadID);
+        return api.sendMessage(infoMsg, event.threadID, event.messageID);
       }
 
       return request(encodeURI(`${threadInfo.imageSrc}`))
@@ -71,7 +99,14 @@ module.exports = {
 
     } catch (error) {
       console.error(error);
-      api.sendMessage("তথ্য সংগ্রহ করতে সমস্যা হয়েছে।", event.threadID);
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ তথ্য সংগ্রহ করতে
+» ❌ সমস্যা হয়েছে!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      api.sendMessage(errorMsg, event.threadID, event.messageID);
     }
   }
 };
