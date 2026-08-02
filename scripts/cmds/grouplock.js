@@ -7,7 +7,7 @@ module.exports = {
     name: "grouplock",
     aliases: ["lock", "lockbox"],
     version: "11.0.0",
-    author: "SIYAM HASAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     role: 0,
     shortDescription: "Turn on/off message lock guard for specific groups.",
     longDescription: "Allows admins to lock a specific group. Automatically warns and kicks regular members who text while locked.",
@@ -28,14 +28,33 @@ module.exports = {
       const isGroupAdmin = groupAdmins.includes(sID);
 
       if (!isBotAdmin && !isGroupAdmin) {
-        return message.reply("❌ এই কমান্ডটি শুধুমাত্র আমার বস 🌝সিয়ামের জন্য🫶 তুই গরিব🥱 তোর কথা শুনবো না🌝 গরিবের দল 😁☹️!");
+        const noPermissionMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❎ এই কমান্ডটি শুধুমাত্র
+» 🎀 আমার বস সিয়ামের জন্য
+» 🥱 তুই গরিব তোর কথা
+» 🙄 শুনবো না! 😁
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return message.reply(noPermissionMsg);
       }
 
       const status = args[0]?.toLowerCase();
 
       if (status === "on") {
         global.__GroupLockSystem.set(threadID, true);
-        return message.reply("🔒 এই গ্রুপের সিকিউরিটি গার্ড অন করা হয়েছে🛡️। এখন থেকে মেসেজ দেওয়া সাথে সাথে কিক ফ্রি 🤣!");
+        const lockOnMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🔒 গ্রুপের সিকিউরিটি
+» 🛡️ গার্ড অন করা হয়েছে 
+» 🤣 এখন থেকে মেসেজ
+» 🦵 দেওয়ার সাথে সাথে
+» 😂 সম্মানের সাথে কিক ফ্রি!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return message.reply(lockOnMsg);
       } 
       
       if (status === "off") {
@@ -43,10 +62,28 @@ module.exports = {
         global.__GroupLockWarn.forEach((val, key) => {
           if (key.startsWith(`${threadID}_`)) global.__GroupLockWarn.delete(key);
         });
-        return message.reply("সিয়াম ভাই 🔓 এই গ্রুপের আন লক করা হয়েছে🛸। এখন সবাই মেসেজ করতে পারবেন।🌝");
+        const lockOffMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🔓 সিয়াম ভাই এই গ্রুপ 
+» 🛸 আনলক করা হয়েছে 
+» 🌝 এখন সবাই মেসেজ 
+» 🥱 করতে পারবেন!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        return message.reply(lockOffMsg);
       }
 
-      return message.reply("⚠️ সিয়াম ভাই এইভাবে ব্যবহার করো:\n• লক করতে: ,grouplock on\n• লক খুলতে: ,grouplock off");
+      const guideMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ সিয়াম ভাই এইভাবে
+» 🙄 ব্যবহার করো:
+» 🔒 লক করতে: lock on
+» 🔓 লক খুলতে: lock off
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(guideMsg);
 
     } catch (err) {
       console.error(err);
@@ -62,7 +99,6 @@ module.exports = {
     try {
       const sID = String(senderID);
 
-      // ১. সিকিউরিটি হোয়াইটলিস্ট চেক (বট ও গ্রুপ এডমিনদের জন্য ছাড়)
       const botAdmins = global.GoatBot?.config?.adminBot || [];
       if (botAdmins.map(id => String(id)).includes(sID)) return;
 
@@ -70,18 +106,15 @@ module.exports = {
       const groupAdmins = info.adminIDs.map(i => String(i.id));
       if (groupAdmins.includes(sID)) return;
 
-      // ২. অ্যান্টি-স্প্যাম মেকানিজম (এক মেসেজ দুইবার আসা বা বট ক্র্যাশ করা রোধ করতে)
       const spamKey = `${threadID}_${sID}`;
       const lastCheck = global.__GroupLockSpam.get(spamKey) || 0;
       if (Date.now() - lastCheck < 1500) return; 
       global.__GroupLockSpam.set(spamKey, Date.now());
 
-      // ৩. সাধারণ মেম্বারের মেসেজ রিমুভ করা
       try {
         await api.unsendMessage(messageID);
       } catch (e) {}
 
-      // ৪. ওয়ার্নিং কাউন্টার ট্র্যাকিং
       const userKey = `${threadID}_${sID}`;
       let warnCount = global.__GroupLockWarn.get(userKey) || 0;
       warnCount++;
@@ -90,18 +123,22 @@ module.exports = {
       let userData = await api.getUserInfo(sID);
       let userName = (userData[sID]?.name || "গ্রুপ মেম্বার").toUpperCase();
 
-      // ৫. অ্যাকশন ইঞ্জিন (৩ বারের বেশি হলে কিক, অন্যথায় ওয়ার্নিং)
-      if (warnCount > 3) {
+      if (warnCount >= 3) {
         global.__GroupLockWarn.delete(userKey);
 
-        let kickMsg = `👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 𝗦𝗜𝗬𝗔𝗠 𝗛𝗔𝗦𝗔𝗡 👑\n`;
-        kickMsg += `───────────────────\n`;
-        kickMsg += `⚠️ 𝗚𝗥𝗢𝗨𝗣 𝗟𝗢𝗖𝗞𝗘𝗗 ⚠️\n\n`;
-        kickMsg += `👤 : @${userName}\n`;
-        kickMsg += `🚫 : ৩ বার ওয়ার্নিং পাওয়ার পরও মেসেজ দিয়েছেন\n`;
-        kickMsg += `⚙️ : 😜মাদারচোদ 🫶সিয়াম ভাই য়ের 😌আদেশ না মানার কারণে 😬তোকে গ্রুপ থেকে 🦵লাথি দিয়ে সম্মানের সহিত বাহির করা হলো 🥱\n`;
-        kickMsg += `───────────────────\n`;
-        kickMsg += `🤖 𝗡𝗜𝗝𝗛𝗨𝗠 𝗕𝗢𝗧 🤖`;
+        const kickMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ 𝗚𝗥𝗢𝗨𝗣 𝗟𝗢𝗖𝗞𝗘𝗗 
+» 👤 @${userName}
+» 🚫 ২ বার ওয়ার্নিং পাওয়ার
+» 🤬 ব্যবহার মেসেজ দিয়েছেন!
+» ⚙️ সিয়াম ভাইয়ের
+» 🎀 আদেশ না মানার কারণে
+» ❎ তোকে গ্রুপ থেকে 
+» 🦵 কিক দেওয়া হলো 🥱
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
 
         await api.sendMessage({
           body: kickMsg,
@@ -111,17 +148,21 @@ module.exports = {
         return api.removeUserFromGroup(sID, threadID);
 
       } else {
-        let remain = 4 - warnCount;
+        let remain = 3 - warnCount;
         
-        let warnMsg = `👑 𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 𝗦𝗜𝗬𝗔𝗠 𝗛𝗔𝗦𝗔𝗡 👑\n`;
-        warnMsg += `───────────────────\n`;
-        warnMsg += `🔒 𝗚𝗥𝗢𝗨𝗣 𝗟𝗢𝗖𝗞𝗘𝗗 🔒\n\n`;
-        warnMsg += `👤 : @${userName}\n`;
-        warnMsg += `📢 : এখন থেকে গ্রুপ লক যে মেসেজ দিবে তাকে 🛡️ সিয়াম ভাই এর 🛸 আদেশে 🥱 অটোমেটিক কিক দেওয়া হবে\n\n`;
-        warnMsg += `⚠️ : [ ${warnCount} / ৩ ]\n`;
-        warnMsg += `🚨 : আর মাত্র ${remain} বার সুযোগ আছে 🤧 প্রিয় 🫶, এরপর কিক খাবেন!\n`;
-        warnMsg += `───────────────────\n`;
-        warnMsg += `🤖 𝗡𝗜𝗝𝗛𝗨𝗠 𝗕𝗢𝗧 🤖`;
+        const warnMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🔒 𝗚𝗥𝗢𝗨𝗣 𝗟𝗢𝗖𝗞𝗘𝗗 
+» 👤 @${userName}
+» 📢 গ্রুপ লক থাকা অবস্থায়
+» 🤦 মেসেজ দিলে কিক খাবেন!
+» ⚠️ [ ${warnCount} / ২ ]
+» 🏟️ আর মাত্র ${remain}
+» 😹 বার সুযোগ আছে 🤧
+» ☠️ এরপর কিক!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
 
         return api.sendMessage({
           body: warnMsg,
