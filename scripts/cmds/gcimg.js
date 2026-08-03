@@ -26,7 +26,7 @@ module.exports = {
     name: "gcimg",
     aliases: ["gcimage", "grpimage"],
     version: "1.1",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     description: "Generate a styled group image with profile pictures",
@@ -92,7 +92,15 @@ module.exports = {
         glow
       };
 
-      const waitMsg = await message.reply("🛠️ | Generating group image, please wait...");
+      const waitMsgText = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🛠️ 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐢𝐧𝐠 𝐠𝐫𝐨𝐮𝐩 𝐢𝐦𝐚𝐠𝐞...
+» ⏳ 𝐏𝐥𝐞𝐚𝐬𝐞 𝐰𝐚𝐢𝐭 𝐚 𝐦𝐨𝐦𝐞𝐧𝐭!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      const waitMsg = await message.reply(waitMsgText);
       api.setMessageReaction("⏳", event.messageID, () => {}, true);
 
       const response = await axios.post(`${await baseApiUrl()}/gcimg`, payload, { responseType: "stream" });
@@ -100,14 +108,30 @@ module.exports = {
       message.unsend(waitMsg.messageID);
       api.setMessageReaction("✅", event.messageID, () => {}, true);
 
+      const successMsgText = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ✨ 𝐇𝐞𝐫𝐞 𝐢𝐬 𝐲𝐨𝐮𝐫 𝐠𝐫𝐨𝐮𝐩 𝐢𝐦𝐚𝐠𝐞!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       return message.reply({
-        body: "✨ | Here's your group image:",
+        body: successMsgText,
         attachment: response.data
       });
 
     } catch (err) {
       console.error("[gcimg] Error:", err);
-      return message.reply(`❌ | An error occurred: ${err.message}`);
+      api.setMessageReaction("❌", event.messageID, () => {}, true);
+      const errorMsgText = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ 𝐀𝐧 𝐞𝐫𝐫𝐨𝐫 𝐨𝐜𝐜𝐮𝐫𝐫𝐞𝐝:
+» ⚠️ ${err.message}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      return message.reply(errorMsgText);
     }
   }
 };
