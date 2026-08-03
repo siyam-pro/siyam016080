@@ -1,11 +1,11 @@
-const fs = require("fs");
+const fs = require("fs-extra");
 const axios = require("axios");
 const path = require("path");
 
 let lastPlayed = -1;
 
-// 🔐 AUTHOR LOCK (DO NOT CHANGE)
-const AUTHOR_LOCK = "FARHAN-KHAN";
+// 🔐 AUTHOR LOCK
+const AUTHOR_LOCK = "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
 
 module.exports = {
   config: {
@@ -24,11 +24,14 @@ module.exports = {
 
     // 🔐 ANTI-CHANGE LOCK CHECK
     if (module.exports.config.author !== AUTHOR_LOCK) {
-      return api.sendMessage(
-        "⛔ 𝗔𝘂𝘁𝗵𝗼𝗿 𝗹𝗼𝗰𝗸 𝗳𝗮𝗶𝗹𝗲𝗱! 𝗙𝗶𝗹𝗲 𝗺𝗼𝗱𝗶𝗳𝗶𝗲𝗱.",
-        threadID,
-        messageID
-      );
+      const lockErrorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⛔ 𝐀𝐮𝐭𝐡𝐨𝐫 𝐥𝐨𝐜𝐤 𝐟𝐚𝐢𝐥𝐞𝐝!
+» ⚠️ 𝐅𝐢𝐥𝐞 𝐦𝐨𝐝𝐢𝐟𝐢𝐞𝐝.
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return api.sendMessage(lockErrorMsg, threadID, messageID);
     }
 
     const songLinks = [
@@ -65,7 +68,13 @@ module.exports = {
     ];
 
     if (songLinks.length === 0) {
-      return api.sendMessage("❌ Nᴏ sᴏɴɢs ᴄᴏᴜʟᴅ ʙᴇ ғᴏᴜɴᴅ!", threadID, messageID);
+      const emptyError = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ 𝐍𝐨 𝐬𝐨𝐧𝐠𝐬 𝐜𝐨𝐮𝐥𝐝 𝐛𝐞 𝐟𝐨𝐮𝐧𝐝!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return api.sendMessage(emptyError, threadID, messageID);
     }
 
     api.setMessageReaction("🎵", messageID, () => {}, true);
@@ -78,7 +87,11 @@ module.exports = {
     lastPlayed = index;
 
     const url = songLinks[index];
-    const filePath = path.join(__dirname, `/cache/song_${index}.mp3`);
+    const ext = url.substring(url.lastIndexOf("."));
+    const cacheDir = path.join(__dirname, "cache");
+    fs.ensureDirSync(cacheDir);
+
+    const filePath = path.join(cacheDir, `song_${Date.now()}${ext}`);
 
     try {
       const response = await axios({
@@ -91,25 +104,44 @@ module.exports = {
       response.data.pipe(writer);
 
       writer.on("finish", async () => {
+        const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🎶 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐫𝐚𝐧𝐝𝐨𝐦 𝐬𝐨𝐧𝐠
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
         api.sendMessage(
           {
-            body: "🎶 Hᴇʀᴇ's ʏᴏᴜʀ sᴏɴɢ 🎧",
+            body: successMsg,
             attachment: fs.createReadStream(filePath)
           },
           threadID,
           async () => {
-            fs.unlinkSync(filePath);
+            if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
           },
           messageID
         );
       });
 
       writer.on("error", () => {
-        api.sendMessage("❌ Fᴀɪʟᴇᴅ ᴛᴏ sᴇɴᴅ sᴏɴɢ!", threadID, messageID);
+        const sendError = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐬𝐞𝐧𝐝 𝐬𝐨𝐧𝐠!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+        api.sendMessage(sendError, threadID, messageID);
       });
 
     } catch (err) {
-      api.sendMessage("⚠️ Fᴀɪʟᴇᴅ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ sᴏɴɢ!", threadID, messageID);
+      const downloadError = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐬𝐨𝐧𝐠!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      api.sendMessage(downloadError, threadID, messageID);
     }
   }
 };
