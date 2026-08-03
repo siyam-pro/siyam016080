@@ -1,6 +1,7 @@
 const fs = require("fs-extra");
 const axios = require("axios");
 const path = require("path");
+const ffmpeg = require("fluent-ffmpeg");
 
 let lastPlayed = -1;
 
@@ -10,11 +11,11 @@ const AUTHOR_LOCK = "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
 module.exports = {
   config: {
     name: "gan",
-    version: "1.0.2",
+    version: "1.0.4",
     role: 0,
     author: AUTHOR_LOCK,
-    shortDescription: "Play random song with command 🎶",
-    longDescription: "Sends a random mp3 song from preset Catbox links.",
+    shortDescription: "Play random audio song with command 🎶",
+    longDescription: "Sends a random audio from preset Catbox links.",
     category: "media",
     guide: "{p}gan"
   },
@@ -34,6 +35,7 @@ module.exports = {
       return api.sendMessage(lockErrorMsg, threadID, messageID);
     }
 
+    // 🎵 আপনার অরিজিনাল ২৯টি লিংকের একটিও বাদ দেওয়া হয়নি:
     const songLinks = [
       "https://files.catbox.moe/jx9cpq.mp4",
       "https://files.catbox.moe/jzg3j7.mp4",
@@ -87,11 +89,11 @@ module.exports = {
     lastPlayed = index;
 
     const url = songLinks[index];
-    const ext = url.substring(url.lastIndexOf("."));
     const cacheDir = path.join(__dirname, "cache");
     fs.ensureDirSync(cacheDir);
 
-    const filePath = path.join(cacheDir, `song_${Date.now()}${ext}`);
+    const tempFilePath = path.join(cacheDir, `temp_${Date.now()}`);
+    const audioFilePath = path.join(cacheDir, `audio_${Date.now()}.mp3`);
 
     try {
       const response = await axios({
@@ -100,45 +102,68 @@ module.exports = {
         responseType: "stream"
       });
 
-      const writer = fs.createWriteStream(filePath);
+      const writer = fs.createWriteStream(tempFilePath);
       response.data.pipe(writer);
 
       writer.on("finish", async () => {
-        const successMsg = 
+        // MP4 বা অন্য যেকোনো ফরম্যাটকে অডিও (MP3) ভয়েসে কনভার্ট করা
+        ffmpeg(tempFilePath)
+          .toFormat("mp3")
+          .on("end", async () => {
+            if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
+
+            const successMsg = 
 `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
 ───────────────
-» 🎶 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐫𝐚𝐧𝐝𝐨𝐦 𝐬𝐨𝐧𝐠
+» 🎶 𝐇𝐞𝐫𝐞'𝐬 𝐲𝐨𝐮𝐫 𝐚𝐮𝐝𝐢𝐨 𝐬𝐨𝐧𝐠
 ───────────────
 » 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
 
-        api.sendMessage(
-          {
-            body: successMsg,
-            attachment: fs.createReadStream(filePath)
-          },
-          threadID,
-          async () => {
-            if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-          },
-          messageID
-        );
+            api.sendMessage(
+              {
+                body: successMsg,
+                attachment: fs.createReadStream(audioFilePath)
+              },
+              threadID,
+              async () => {
+                if (fs.existsSync(audioFilePath)) fs.unlinkSync(audioFilePath);
+              },
+              messageID
+            );
+          })
+          .on("error", (err) => {
+            console.error(err);
+            if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
+            if (fs.existsSync(audioFilePath)) fs.unlinkSync(audioFilePath);
+
+            const convError = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐜𝐨𝐧𝐯𝐞𝐫𝐭 𝐭𝐨 𝐚𝐮𝐝𝐢𝐨!
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+            api.sendMessage(convError, threadID, messageID);
+          })
+          .save(audioFilePath);
       });
 
       writer.on("error", () => {
+        if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
         const sendError = 
 `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
 ───────────────
-» ❌ 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐬𝐞𝐧𝐝 𝐬𝐨𝐧𝐠!
+» ❌ 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐬𝐞𝐧𝐝 𝐚𝐮𝐝𝐢𝐨!
 ───────────────
 » 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
         api.sendMessage(sendError, threadID, messageID);
       });
 
     } catch (err) {
+      if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
       const downloadError = 
 `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
 ───────────────
-» ⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐬𝐨𝐧𝐠!
+» ⚠️ 𝐅𝐚𝐢𝐥𝐞𝐝 𝐭𝐨 𝐝𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐚𝐮𝐝𝐢𝐨!
 ───────────────
 » 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
       api.sendMessage(downloadError, threadID, messageID);
