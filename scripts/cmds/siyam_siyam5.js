@@ -8,7 +8,7 @@ const AUTHOR = "♦ Siyam_YT ♦";
 module.exports.config = {
   name: "siyam5",
   version: "3.0",
-  author: "♦ Siyam_YT ♦",
+  author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
   category: "automation",
   role: 0
 };
