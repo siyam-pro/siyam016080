@@ -6,7 +6,7 @@ module.exports = {
     name: "gemini",
     aliases: ["ai","chat"],
     version: "0.0.1",
-    author: "ArYAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 3,
     role: 0,
     shortDescription: "Ask Gemini AI",
