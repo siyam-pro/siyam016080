@@ -2,8 +2,8 @@ module.exports = {
 	config: {
 		name: "voice",
 		aliases: ["Voice","fk"],
-		version: "1.8",
-		author: "Rocky Chowdhury",
+		version: "1.9",
+		author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
 		countDown: 5,
 		role: 0,
 		shortDescription: "Random captions with video and owner link",
@@ -12,11 +12,22 @@ module.exports = {
 		guide: "{pn}"
 	},
 
-	onStart: async function ({ message, api }) {
-		const { threadID, messageID } = message;
+	onStart: async function ({ message, api, event }) {
+		const { threadID, messageID, body } = event;
 
-		if (this.config.author !== "Rocky Chowdhury") {
-			return message.reply("⚠️ [ SECURITY ALERT ]\nAuthor name change detected! This command will not work unless the original author 'Rocky Chowdhury' is set.");
+		// 🛑 কমান্ডের সাথে অন্য কোনো লেখা বা ইমোজি থাকলে বট চুপ থাকবে
+		if (body) {
+			const validCommands = [this.config.name, ...this.config.aliases];
+			const isExactMatch = validCommands.some(cmd => {
+				const regex = new RegExp(`^(\\W+)?${cmd}$`, "i");
+				return regex.test(body.trim());
+			});
+
+			if (!isExactMatch) return;
+		}
+
+		if (this.config.author !== "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍") {
+			return message.reply("⚠️ [ SECURITY ALERT ]\nAuthor name change detected! This command will not work unless the original author '𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍' is set.");
 		}
 
 		try {
@@ -31,15 +42,15 @@ module.exports = {
 				link: "https://files.catbox.moe/bs84st.mp4"
 			},
 			{
-				cap: `সবাই পাশে থাকবে না 😌\nকিন্তু নিজে নিজেকে কখনো ছাড়ো না 💯\nনিজের ভ্যালু বুঝতে শিখো 🔥`,
+				cap: `সবাই পাশে থাকবে না 😌\nকিন্তু নিজে নিজেকে কখনো ছাড়ো না 💯\nনিজের ভ্যালু বুঝতে শিখো 🔥`,
 				link: "https://files.catbox.moe/hgo8gp.mp4"
 			},
 			{
-				cap: `স্বপ্ন দেখতে ভয় পেয়ো না 💭\nআজ ছোট হলেও কাল বড় হবে 🚀\nধৈর্য ধরো, সময় আসবে,⏳🕰️`,
+				cap: `স্বপ্ন দেখতে ভয় পেয়ো না 💭\nআজ ছোট হলেও কাল বড় হবে 🚀\nধৈর্য ধরো, সময় আসবে,⏳🕰️`,
 				link: "https://files.catbox.moe/23zj4q.mp4"
 			},
 			{
-				cap: `মন খারাপ হলেও চুপ থেকো না 😔\nনিজের সাথে কথা বলো 🙂\nসব ঠিক হয়ে যাবে একদিন 🌸`,
+				cap: `মন খারাপ হলেও চুপ থেকো না 😔\nনিজের সাথে কথা বলো 🙂\nসব ঠিক হয়ে যাবে একদিন 🌸`,
 				link: "https://files.catbox.moe/gogfic.mp4"
 			},
 			{
@@ -47,7 +58,7 @@ module.exports = {
 				link: "https://files.catbox.moe/9uvit1.mp4"
 			},
 			{
-				cap: `সময় অনেক কিছু শিখায় ⏳\nমানুষ চিনতে শেখায় 😶\nভুল থেকে শিক্ষা নাও 📖`,
+				cap: `সময় অনেক কিছু শিখায় ⏳\nমানুষ চিনতে শেখায় 😶\nভুল থেকে শিক্ষা নাও 📖`,
 				link: "https://files.catbox.moe/l15d8y.mp4"
 			},
 			{
@@ -59,11 +70,11 @@ module.exports = {
 				link: "https://files.catbox.moe/gitfya.mp4"
 			},
 			{
-				cap: `জীবন একটা যুদ্ধ ⚔️\nহার মানলে শেষ 😔\nলড়াই চালিয়ে যাও 💪🔥`,
+				cap: `জীবন একটা যুদ্ধ ⚔️\nহার মানলে শেষ 😔\nলড়াই চালিয়ে যাও 💪🔥`,
 				link: "https://files.catbox.moe/src6qb.mp4"
 			},
 			{
-				cap: `চুপ থাকা সবসময় দুর্বলতা না 🤫\nকখনো এটা শক্তি 💯\nসব কথা বলার দরকার নেই 😌`,
+				cap: `চুপ থাকা সবসময় দুর্বলতা না 🤫\nকখনো এটা শক্তি 💯\nসব কথা বলার দরকার নেই 😌`,
 				link: "https://files.catbox.moe/9iqdo0.mp4"
 			}
 		];
