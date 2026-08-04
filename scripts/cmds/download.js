@@ -6,7 +6,7 @@ module.exports = {
   config: {
     name: "download",
     version: "1.4",
-    author: "亗𝐃𝐒 乂𝐒𝐈𝐘𝐀𝐌亗", // LOCKED AUTHOR
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍", // LOCKED AUTHOR
     countDown: 5,
     role: 0,
     shortDescription: "Download media from direct link",
@@ -17,11 +17,21 @@ module.exports = {
   onStart: async function ({ api, event, args }) {
 
     // ===== AUTHOR LOCK SYSTEM =====
-    const LOCKED_AUTHOR = "亗𝐃𝐒 乂𝐒𝐈𝐘𝐀𝐌亗";
+    const LOCKED_AUTHOR = "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
 
     if (module.exports.config.author !== LOCKED_AUTHOR) {
+      const lockMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⛔ 𝗙𝗜𝗟𝗘 𝗟𝗢𝗖𝗞𝗘𝗗
+» ❌ সিয়াম ভাই এর নাম 
+» 🤦 পরিবর্তন করা হয়েছে!
+» ⚠️ এই কমান্ডটি নষ্ট করা হলো।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       return api.sendMessage(
-        "⛔ F I L E  L O C K E D\nAuthor change detected!\nThis command is disabled.",
+        lockMsg,
         event.threadID,
         event.messageID
       );
@@ -31,8 +41,19 @@ module.exports = {
     const url = args[0];
 
     if (!url) {
+      const usageMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ অনুগ্রহ করে একটি 
+» ❌ 𝗗𝗶𝗿𝗲𝗰𝘁 𝗟𝗶𝗻𝗸 দিন।
+───────────────
+ 💡 ব্যবহার পদ্ধতি:
+ 🎀 download https://example.com/video.mp4
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       return api.sendMessage(
-        "⚠️ Pʟᴇᴀsᴇ ᴘʀᴏᴠɪᴅᴇ ᴀ ᴅɪʀᴇᴄᴛ ᴅᴏᴡɴʟᴏᴀᴅ ʟɪɴᴋ.\n\nExample:\n/download https://example.com/video.mp4",
+        usageMsg,
         event.threadID,
         event.messageID
       );
@@ -48,8 +69,19 @@ module.exports = {
     const ext = path.extname(cleanUrl).toLowerCase();
 
     if (!supported.includes(ext)) {
+      const unsupportedMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ 𝗨𝗻𝘀𝘂𝗽𝗽𝗼𝗿𝘁𝗲𝗱 𝗙𝗶𝗹𝗲 𝗧𝘆𝗽𝗲!
+───────────────
+» 📜 সাপোর্ট ফাইল ফরম্যাট:
+» 📁 mp4 mp3 jpg png gif 
+» ✅ pdf docx txt zip
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       return api.sendMessage(
-        "❌ Uɴsᴜᴘᴘᴏʀᴛᴇᴅ ғɪʟᴇ ᴛʏᴘᴇ!\n\nSupported:\nmp4, mp3, jpg, png, gif, pdf, docx, txt, zip",
+        unsupportedMsg,
         event.threadID,
         event.messageID
       );
@@ -58,8 +90,17 @@ module.exports = {
     const fileName = `download${ext}`;
 
     try {
+      const loadingText = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⏳ 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱𝗶𝗻𝗴...
+» 🚀 অনুগ্রহ করে কিছুক্ষণ 
+» 👑 অপেক্ষা করুন...
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       const loadingMsg = await api.sendMessage(
-        "⏳ Dᴏᴡɴʟᴏᴀᴅɪɴɢ...",
+        loadingText,
         event.threadID
       );
 
@@ -72,9 +113,17 @@ module.exports = {
 
       api.unsendMessage(loadingMsg.messageID);
 
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🎉 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 𝗖𝗼𝗺𝗽𝗹𝗲𝘁𝗲!
+» 📁 ফাইল: ${fileName}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       return api.sendMessage(
         {
-          body: `✅ Download Complete!\n📁 File: ${fileName}`,
+          body: successMsg,
           attachment: fs.createReadStream(fileName)
         },
         event.threadID,
@@ -83,8 +132,17 @@ module.exports = {
 
     } catch (err) {
       console.error(err);
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ডাউনলোড ব্যর্থ হয়েছে!
+» 💥 লিংকটি ভুল বা 𝗗𝗶𝗿𝗲𝗰𝘁 
+» 📉 𝗟𝗶𝗻𝗸 নাও হতে পারে।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       return api.sendMessage(
-        "❌ Download failed! The link may not be direct or invalid.",
+        errorMsg,
         event.threadID
       );
     }
