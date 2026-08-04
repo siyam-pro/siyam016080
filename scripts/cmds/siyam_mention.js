@@ -5,7 +5,7 @@ const AUTHOR_LOCK = "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
 module.exports = {
   config: {
     name: "siyam_mention",
-    version: "7.0.0",
+    version: "7.0.1",
     author: AUTHOR_LOCK,
     countDown: 0,
     role: 0,
@@ -25,16 +25,17 @@ module.exports = {
     const admins = [
       {
         uid: "61568411310748",
-        names: ["@পি্ঁচ্চি্ঁ রি্ঁদ্ঁয়্ঁ ত্যা্ঁহ্ঁ"]
+        names: ["@পি্ঁচ্চি্ঁ রি্ঁদ্ঁয়্ঁ ত্যা্ঁহ্ঁ", "সিয়াম", "siyam"]
       },
       {
         uid: "61584641872032",
-        names: ["@ট্ঁপ্ঁ গা্ঁলি্ঁ বা্ঁজ্ঁ হৃ্ঁদ্ঁয়্ঁ"]
+        names: ["@ট্ঁপ্ঁ গা্ঁলি্ঁ বা্ঁজ্ঁ হৃ্ঁদ্ঁয়্ঁ", "হৃদয়", "সিয়া.ম"]
       }
     ];
 
     const senderID = String(event.senderID);
 
+    // এডমিন নিজে মেসেজ দিলে বা মেনশন করলে বট উত্তর দেবে না
     if (admins.some(a => a.uid === senderID)) return;
 
     const text = (event.body || "").toLowerCase().trim();
@@ -62,9 +63,10 @@ module.exports = {
       "চুমু খাওয়ার বয়স টা আমার বস সিয়াম মাদিহা কে🍫খেয়ে উড়িয়ে দিল 🤗"
     ];
 
+    // র্যান্ডম ক্যাপশন স্টাইলড ফর্মেটে সাজানোর জন্য ফিক্স করা ফাংশন
     const formatCaption = (captionText) => {
       return `•──────•°•❀•°•───────•
-- ${text}
+- ${captionText}
 •──────•°•❀•°•───────•
 [ ʙᴏᴛ ᴏᴡɴᴇʀ : ꜱɪʏᴀᴍ ʜᴀꜱᴀɴ ]
 •──────•°•❀•°•───────•`;
