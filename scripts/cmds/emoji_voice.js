@@ -1,7 +1,6 @@
 const axios = require("axios");
 const fs = require("fs-extra");
 const path = require("path");
-
 const cooldowns = new Map();
 
 module.exports = {
@@ -15,12 +14,10 @@ module.exports = {
     longDescription: "One emoji triggers multiple voices, sent randomly 😘",
     category: "system"
   },
-
   onStart: async function () {},
-
   onChat: async function ({ event, message }) {
     const { body, senderID } = event;
-    if (!body || body.length > 2) return;
+    if (!body) return;
 
     const emojiAudioMap = {
       "🥱": ["https://files.catbox.moe/9pou40.mp3","https://files.catbox.moe/60cwcg.mp3"],
@@ -66,47 +63,62 @@ module.exports = {
       "😒": ["https://files.catbox.moe/mt5il0.mp3"],
       "😓": ["https://files.catbox.moe/zh3mdg.mp3"],
       "🤧": ["https://files.catbox.moe/zh3mdg.mp3"],
-      "🙄": ["https://files.catbox.moe/vgzkeu.mp3"]
+      "🙄": ["https://files.catbox.moe/vgzkeu.mp3"],
+      "good night": ["https://files.catbox.moe/i29m4q.mp3"],
+      "গুড নাইট": ["https://files.catbox.moe/i29m4q.mp3"],
+      "good morning": ["https://files.catbox.moe/8gzqx5.mp3"],
+      "গুড মর্নিং": ["https://files.catbox.moe/8gzqx5.mp3"],
+      "siyam": ["https://files.catbox.moe/9w6moo.mp3"],
+      "সিয়াম ভাই": ["https://files.catbox.moe/9w6moo.mp3"],
+      "সিয়াম": ["https://files.catbox.moe/9w6moo.mp3"],
+      "সিয়া.ম": ["https://files.catbox.moe/9w6moo.mp3"],
+      "@ট্ঁপ্ঁ গা্ঁলি্ঁ বা্ঁজ্ঁ হৃ্ঁদ্ঁয়্ঁ": ["https://files.catbox.moe/lkysl2.mp4"],
+      "@everyone": ["https://files.catbox.moe/stcply.mp3"],
+      "নিঝুম": ["https://files.catbox.moe/3u6shs.mp3"],
+      "👍": ["https://files.catbox.moe/ahux2o.mp4"]
     };
 
-    const emoji = body.trim();
-    const audioList = emojiAudioMap[emoji];
+    const triggerKey = body.trim().toLowerCase();
+    let audioList = emojiAudioMap[body.trim()];
+
+    if (!audioList) {
+      const foundKey = Object.keys(emojiAudioMap).find(k => k.toLowerCase() === triggerKey);
+      if (foundKey) {
+        audioList = emojiAudioMap[foundKey];
+      }
+    }
+
     if (!audioList) return;
 
-    const cooldownKey = `${senderID}_${emoji}`;
+    const cooldownKey = `${senderID}_${triggerKey}`;
     const now = Date.now();
-    const cooldownTime = 3 * 60 * 1000; // ৩ মিনিট (১৮০,০০০ মিলি সেকেন্ড)
+    const cooldownTime = 3 * 60 * 1000;
 
     if (cooldowns.has(cooldownKey)) {
       const expirationTime = cooldowns.get(cooldownKey);
       if (now < expirationTime) {
-        
         return;
       }
     }
 
-  
     cooldowns.set(cooldownKey, now + cooldownTime);
 
-    
     const audioUrl = audioList[Math.floor(Math.random() * audioList.length)];
-
     const cacheDir = path.join(__dirname, "cache");
+
     fs.ensureDirSync(cacheDir);
 
-    // 🔥 UNIQUE FILE NAME EVERY TIME TO AVOID REPEAT
+    const ext = audioUrl.endsWith(".mp4") ? "mp4" : "mp3";
     const filePath = path.join(
       cacheDir,
-      `${encodeURIComponent(emoji)}_${Date.now()}_${Math.floor(Math.random() * 1000)}.mp3`
+      `${encodeURIComponent(triggerKey)}_${Date.now()}_${Math.floor(Math.random() * 1000)}.${ext}`
     );
 
     try {
       const response = await axios.get(audioUrl, { responseType: "arraybuffer" });
       fs.writeFileSync(filePath, Buffer.from(response.data));
 
-      // 🔥 REPLY WITH FRESH STREAM
       await message.reply({ attachment: fs.createReadStream(filePath) });
-
       fs.unlink(filePath, (err) => {
         if (err) console.error("Failed to delete cache file:", err);
       });
