@@ -1,4 +1,5 @@
 const { getTime } = global.utils;
+const axios = require("axios");
 
 module.exports = {
   config: {
@@ -30,22 +31,65 @@ module.exports = {
 
       const boldName = userName.split("").map(c => boldMap[c] || c).join("");
 
-      const form = {
-        body: `───『 𝐋𝐄𝐀𝐕𝐄 𝐀𝐋𝐄𝐑𝐓 』───
+      // ভিডিও লিংক ইউআরএল অ্যারে
+      const successVideos = [
+        "https://files.catbox.moe/enthzq.mp4",
+        "https://files.catbox.moe/h5c9pv.mp4"
+      ];
 
-অ্যাই বলদ 👀  『 ${boldName} 』
-গ্রুপ থেকে পলাইছিস কই? 😹
+      const failVideos = [
+        "https://files.catbox.moe/uxku65.mp4",
+        "https://files.catbox.moe/ol92rr.mp4"
+      ];
 
-আমি বস 『 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 』এর বট থাকতে তোর পলায় যাওয়ার কোনো সুযোগ নাই! 
-
-তোকে আবার টেনে ধরে গ্রুপে ব্যাক আনা হলো! 🐸✨`
-      };
+      // র্যান্ডমলি ভিডিও বাছাই করার ফাংশন
+      const getRandomVideo = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
       try {
         await api.addUserToGroup(leftID, threadID);
+
+        const randomSuccessUrl = getRandomVideo(successVideos);
+        const videoStream = (await axios.get(randomSuccessUrl, { responseType: "stream" })).data;
+
+        const form = {
+          body: `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🫣 পলাইছে রে পলাইছে...!!
+» 🙆 『 ${boldName} 』
+» 🤡 এই বলদ পলাইছে.! 😹
+» 👑 আমি বস『 𝆠፝𝐒𝐈𝐘𝐀𝐌 』এর
+» 🤖 বট থাকতে.!
+» ☠️ তুই পালাতে পারবি না..😋
+» 🥋 তোকে সিয়াম বসের...
+» 🥵 খাটে কুংফু খেলার স্টাইলে
+» 🧚 ধরে নিয়ে আসলাম 😹
+» 🚫 👑𝆠፝𝐒𝐈𝐘𝐀𝐌- বসের 👈
+» 🥱 পারমিশন ছাড়া গ্রুপ থেকে 
+» 🛡️ লিভ নেওয়া যায় না...😹🙄
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`,
+          attachment: videoStream
+        };
+
         await message.send(form);
       } catch (err) {
-        message.send("⚠️ দুঃখিত, ইউজারকে পুনরায় অ্যাড করা সম্ভব হয়নি। হয়তো তার আইডি প্রাইভেট করা বা অ্যাডমিট ব্লক রয়েছে।");
+        const randomFailUrl = getRandomVideo(failVideos);
+        const failVideoStream = (await axios.get(randomFailUrl, { responseType: "stream" })).data;
+
+        const failForm = {
+          body: `» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 😹 দুঃখিত সিয়াম ভাই...
+» 🚫 এই ইউজারটাকে 
+» 📡 এড করতে পারলাম না
+» 💀 মনে হয় উনি মারা গেছেন!
+» 🍽️ চলো চলিশা খেয়ে আসি 🤣
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`,
+          attachment: failVideoStream
+        };
+
+        await message.send(failForm);
       }
     }
   }
