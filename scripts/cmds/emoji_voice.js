@@ -72,7 +72,7 @@ module.exports = {
       "সিয়াম ভাই": ["https://files.catbox.moe/9w6moo.mp3"],
       "সিয়াম": ["https://files.catbox.moe/9w6moo.mp3"],
       "সিয়া.ম": ["https://files.catbox.moe/9w6moo.mp3"],
-      "@ট্ঁপ্ঁ গা্ঁলি্ঁ বা্ঁজ্ঁ হৃ্ঁদ্ঁয়্ঁ": ["https://files.catbox.moe/lkysl2.mp4"],
+      "@ট্ঁপ্ঁ গা্ঁলি্ঁ বা্ঁজ্ঁ হৃ্ঁদ্ঁয়্ঁ": ["https://files.catbox.moe/cciqsq.mp4"],
       "@everyone": ["https://files.catbox.moe/stcply.mp3"],
       "নিঝুম": ["https://files.catbox.moe/3u6shs.mp3"],
       "👍": ["https://files.catbox.moe/4ojlc3.mp4"]
@@ -108,10 +108,10 @@ module.exports = {
 
     fs.ensureDirSync(cacheDir);
 
-    const ext = audioUrl.endsWith(".mp4") ? "mp4" : "mp3";
+    // সকল অডিও/ভিডিও লিঙ্ককে ডাইরেক্ট অডিও (.mp3) হিসেবে সংরক্ষণ করার জন্য এক্সটেনশন ফিক্স করা হলো
     const filePath = path.join(
       cacheDir,
-      `${encodeURIComponent(triggerKey)}_${Date.now()}_${Math.floor(Math.random() * 1000)}.${ext}`
+      `${encodeURIComponent(triggerKey)}_${Date.now()}_${Math.floor(Math.random() * 1000)}.mp3`
     );
 
     try {
