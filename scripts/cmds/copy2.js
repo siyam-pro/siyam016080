@@ -6,7 +6,7 @@ module.exports = {
     config: {
         name: "copy2",
         version: "7.0.0",
-        author: "SIYAM HASAN",
+        author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
         role: 0,
         countDown: 5,
         category: "UTILITY",
@@ -18,54 +18,125 @@ module.exports = {
     onStart: async function ({ api, event, args }) {
         const { threadID, messageID, senderID } = event;
 
+        const LOCKED_AUTHOR = "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
+
+        if (module.exports.config.author !== LOCKED_AUTHOR) {
+            const lockMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⛔ 𝗙𝗜𝗟𝗘 𝗟𝗢𝗖𝗞𝗘𝗗
+» ❌ সিয়াম ভাই এর নাম 
+» 🤦 পরিবর্তন করা হয়েছে!
+» ⚠️ এই কমান্ডটি নষ্ট করা হলো।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+            return api.sendMessage(lockMsg, threadID, messageID);
+        }
+
         try {
             if (args.length < 2) {
-                return api.sendMessage("⚠️ copy [টেক্সট/ইমোজি] [সংখ্যা]\nউদাহরণ: copy আমার বস সিয়াম 100", threadID, messageID);
+                const usageMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ ব্যবহার পদ্ধতি:
+» 📝 copy [টেক্সট/ইমোজি]
+» ☠️  [সংখ্যা]
+───────────────
+» 💡 উদাহরণ:
+» 🙄 copy আমার বস সিয়াম 
+» 🎰 70
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+                return api.sendMessage(usageMsg, threadID, messageID);
             }
 
             const countStr = args[args.length - 1];
             const count = parseInt(countStr);
 
             if (isNaN(count) || count <= 0) {
-                return api.sendMessage("❌ ভুল সংখ্যা! দয়া করে একটি সঠিক সংখ্যা দিন (যেমন: ১ থেকে ১০,০০০)।", threadID, messageID);
+                const invalidCountMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ভুল সংখ্যা!
+» 🔢 একটি সঠিক সংখ্যা দিন
+» ✅ (যেমন: 1 থেকে 10,000)।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+                return api.sendMessage(invalidCountMsg, threadID, messageID);
             }
 
             if (count > 10000) {
-                return api.sendMessage("⚠️ গরিবের দল😖 একসাথে সর্বোচ্চ ১০,০০০ বার কপি করা যাবে।", threadID, messageID);
+                const maxCountMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ গরিবের দল😖
+» ❌ একসাথে সর্বোচ্চ 10k
+» 📉 বার কপি করা যাবে।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+                return api.sendMessage(maxCountMsg, threadID, messageID);
             }
 
             args.pop();
             const targetText = args.join(" ");
 
             if (!targetText) {
-                return api.sendMessage("❌ দয়া করে কপি করার জন্য কোনো টেক্সট বা ইমোজি দিন।", threadID, messageID);
+                const noTextMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ কোনো টেক্সট বা 
+» ⚔️ ইমোজি দিন।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+                return api.sendMessage(noTextMsg, threadID, messageID);
             }
 
-            // বটের এডমিন লিস্ট চেক করা (GoatBot বা সাধারণ ফ্রেমওয়ার্ক অনুযায়ী)
             const botAdmins = global.GoatBot?.config?.adminBot || global.config?.ADMINBOT || [];
             const isBotAdmin = botAdmins.includes(senderID);
 
-            // যদি এডমিন না হয়, তবে টেক্সট-ভিত্তিক স্মার্ট কুলডাউন চেক হবে
+            if (!isBotAdmin && targetText.length > 70) {
+                const limitMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ 𝗟𝗜𝗠𝗜𝗧 𝗪𝗔𝗥𝗡𝗜𝗡𝗚!
+» ❌ তুই গরিব সর্বোচ্চ 𝟳𝟬
+» 😏 ব্যবহার করতে পারবি।
+» 📝 আপনার বর্তমান অক্ষর
+» 🖥️  সংখ্যা: 
+» 🎰 ${targetText.length}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+                return api.sendMessage(limitMsg, threadID, messageID);
+            }
+
             if (!isBotAdmin) {
                 const currentTime = Date.now();
-                const cooldownTime = 3 * 60 * 1000; // ৩ মিনিট
+                const cooldownTime = 3 * 60 * 1000; 
                 
-                // ইউজারের আইডি এবং ওই নির্দিষ্ট টেক্সটের জন্য ইউনিক কি (Key) তৈরি করা
                 const cooldownKey = `${senderID}_${Buffer.from(targetText).toString("hex").slice(0, 30)}`;
 
                 if (global.siyamTextCooldown[cooldownKey] && (currentTime - global.siyamTextCooldown[cooldownKey] < cooldownTime)) {
                     const remainingTime = Math.ceil((cooldownTime - (currentTime - global.siyamTextCooldown[cooldownKey])) / 1000);
-                    return api.sendMessage(` 🚫 𝗗𝘂𝗽𝗹𝗶𝗰𝗮𝘁𝗲 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 ⏳ 𝗧𝗿𝘆 𝗔𝗴𝗮𝗶𝗻 𝗜𝗻 ${remainingTime} 💎 Try Another Text)`, threadID, messageID);
+                    const cooldownMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🚫 𝗗𝘂𝗽𝗹𝗶𝗰𝗮𝘁𝗲 𝗠𝗲𝘀𝘀𝗮𝗴𝗲
+» ⏳ 𝗧𝗿𝘆 𝗔𝗴𝗮𝗶𝗻 𝗜𝗻 
+» 📉 ${remainingTime}
+» 😊 সেকেন্ড।
+» 💎 অন্য কোনো টেক্সট ব্যবহার
+» ✅ করুন।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+                    return api.sendMessage(cooldownMsg, threadID, messageID);
                 }
 
-                // এই নির্দিষ্ট টেক্সটটির জন্য টাইমস্ট্যাম্প সেট করা
                 global.siyamTextCooldown[cooldownKey] = currentTime;
             }
 
-            // টেক্সট রিপিট তৈরি করা
             let repeatedResult = Array(count).fill(targetText).join(" ");
             
-            // অটো-স্প্লিটার (মেসেঞ্জারের লিমিট সেফটি)
             const MAX_LENGTH = 1900; 
             let messageChunks = [];
 
@@ -80,7 +151,6 @@ module.exports = {
                 }
             }
 
-            // বিরতি দিয়ে স্প্লিট মেসেজগুলো সেন্ড করা
             for (let i = 0; i < messageChunks.length; i++) {
                 await api.sendMessage(messageChunks[i], threadID);
                 if (messageChunks.length > 1) {
@@ -90,7 +160,15 @@ module.exports = {
 
         } catch (err) {
             console.error("Copy Command Error:", err);
-            api.sendMessage("❌ অভ্যন্তরীণ সমস্যা! ফাইল ক্রাশ এড়ানো হয়েছে: " + err.message, threadID, messageID);
+            const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ অভ্যন্তরীণ সমস্যা!
+» 💥 ফাইল ক্রাশ এড়ানো
+» 🎀  হয়েছে: ${err.message}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+            api.sendMessage(errorMsg, threadID, messageID);
         }
     }
 };
