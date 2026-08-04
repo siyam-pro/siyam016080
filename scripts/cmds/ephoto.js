@@ -8,7 +8,7 @@ module.exports = {
     name: "ephoto",
     aliases: ["ep"],
     version: "1.3.0",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     role: 0,
     countDown: 5,
     category: "textmaker",
@@ -83,22 +83,50 @@ module.exports = {
 
     // Show list
     if (args[0] && args[0].toLowerCase() === "list") {
-      let msg = "📌 Available Ephoto Templates:\n\n";
-      for (const id in templates)
-        msg += `${id}. ${templates[id]}\n`;
-      return message.reply(msg);
+      let listTxt = "";
+      for (const id in templates) {
+        listTxt += `» 🎨 ${id}. ${templates[id]}\n`;
+      }
+      const listMessage = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 📜 𝗧𝗘𝗠𝗣𝗟𝗔𝗧𝗘 𝗟𝗜𝗦𝗧
+» 🎰 সব টেমপ্লেটের তালিকা 
+» 🙂 নিচে দেওয়া হলো:
+───────────────
+${listTxt}───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(listMessage);
     }
 
-    if (args.length < 2)
-      return message.reply(
-        "⚠ Provide template ID and text.\nExample:\n.ephoto 1 Farhan\nUse `.ephoto list`"
-      );
+    if (args.length < 2) {
+      const usageMessage = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ অনুগ্রহ করে 𝗧𝗲𝗺𝗽𝗹𝗮𝘁𝗲 𝗜𝗗
+» 📝 এবং আপনার 𝗧𝗲𝘴𝘁 দিন।
+───────────────
+» 💡 ব্যবহার পদ্ধতি:
+» 🙄 .ephoto 1 Siyam
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(usageMessage);
+    }
 
     const templateID = args[0];
     const text = args.slice(1).join(" ");
 
-    if (!urls[templateID])
-      return message.reply("❌ Invalid template ID. Use `.ephoto list`");
+    if (!urls[templateID]) {
+      const invalidMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ ভুল 𝗧𝗲𝗺𝗽𝗹𝗮𝘁𝗲 𝗜𝗗 দিয়েছেন!
+» 🎀 সঠিক তালিকা দেখতে লিখুন:
+» 📖 .ephoto list
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(invalidMsg);
+    }
 
     const cacheDir = path.join(__dirname, "cache");
     fs.ensureDirSync(cacheDir);
@@ -118,8 +146,19 @@ module.exports = {
 
       await fs.writeFile(imagePath, res.data);
 
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🎉 আপনার ফটো 
+» ☑️ সফলভাবে তৈরি হয়েছে!
+» 🆔 𝗧𝗲𝗺𝗽𝗹𝗮𝘁𝗲 𝗜𝗗: 
+» 🆔 #${templateID}
+» ✍️ 𝗧𝗲𝘴𝘁: ${text}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       await message.reply({
-        body: `✅ Created "${text}" using template #${templateID}`,
+        body: successMsg,
         attachment: fs.createReadStream(imagePath)
       });
 
@@ -129,7 +168,16 @@ module.exports = {
 
     } catch (err) {
       console.error("Ephoto Error:", err);
-      return message.reply("❌ Failed to generate image. Try again later.");
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 💥 দুঃখিত! ফটো তৈরি 
+» ❌ করতে সমস্যা হয়েছে।
+» 🔄 অনুগ্রহ করে কিছুক্ষণ 
+» 🫠 পর আবার চেষ্টা করুন।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+      return message.reply(errorMsg);
     }
   }
 };
