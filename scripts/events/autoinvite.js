@@ -5,7 +5,7 @@ module.exports = {
   config: {
     name: "autoinvite",
     version: "2.5",
-    author: "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
+    author: "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍", // নাম পরিবর্তন করলে বট বন্ধ হয়ে যাবে 
     category: "events"
   },
 
@@ -31,7 +31,7 @@ module.exports = {
 
       const boldName = userName.split("").map(c => boldMap[c] || c).join("");
 
-      // ভিডিও লিংক ইউআরএল অ্যারে
+      // 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 
       const successVideos = [
         "https://files.catbox.moe/enthzq.mp4",
         "https://files.catbox.moe/h5c9pv.mp4"
@@ -42,7 +42,7 @@ module.exports = {
         "https://files.catbox.moe/ol92rr.mp4"
       ];
 
-      // র্যান্ডমলি ভিডিও বাছাই করার ফাংশন
+      // 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 
       const getRandomVideo = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
       try {
@@ -65,7 +65,7 @@ module.exports = {
 » 🧚 ধরে নিয়ে আসলাম 😹
 » 🚫 👑𝆠፝𝐒𝐈𝐘𝐀𝐌- বসের 👈
 » 🥱 পারমিশন ছাড়া গ্রুপ থেকে 
-» 🛡️ লিভ নেওয়া যায় না...😹🙄
+» 🛡️ লিভ নেওয়া যায় না.😹
 ───────────────
 » 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`,
           attachment: videoStream
@@ -83,7 +83,7 @@ module.exports = {
 » 🚫 এই ইউজারটাকে 
 » 📡 এড করতে পারলাম না
 » 💀 মনে হয় উনি মারা গেছেন!
-» 🍽️ চলো চলিশা খেয়ে আসি 🤣
+» 🍽️ চলো চলিশা খেয়ে আসি
 ───────────────
 » 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`,
           attachment: failVideoStream
