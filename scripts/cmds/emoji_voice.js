@@ -75,7 +75,7 @@ module.exports = {
       "@ট্ঁপ্ঁ গা্ঁলি্ঁ বা্ঁজ্ঁ হৃ্ঁদ্ঁয়্ঁ": ["https://files.catbox.moe/lkysl2.mp4"],
       "@everyone": ["https://files.catbox.moe/stcply.mp3"],
       "নিঝুম": ["https://files.catbox.moe/3u6shs.mp3"],
-      "👍": ["https://files.catbox.moe/ahux2o.mp4"]
+      "👍": ["https://files.catbox.moe/4ojlc3.mp4"]
     };
 
     const triggerKey = body.trim().toLowerCase();
