@@ -7,7 +7,7 @@ module.exports = {
     name: "emojimix",
     aliases: ["mix"],
     version: "1.0.1",
-    author: "FARHAN-KHAN",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     role: 0,
     shortDescription: {
       en: "Mix two emojis"
@@ -25,11 +25,18 @@ module.exports = {
     const { threadID, messageID } = event;
 
     if (args.length < 2) {
-      return api.sendMessage(
-        `❌ Wrong format!\n✅ Use: ${global.GoatBot.config.prefix}mix 😄 😍`,
-        threadID,
-        messageID
-      );
+      const usageMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ⚠️ ভুল ফরম্যাট!
+» 📝 অন্তত দুইটি ইমোজি দিন।
+───────────────
+» 💡 ব্যবহার পদ্ধতি:
+» 🙄 ${global.GoatBot.config.prefix}mix 😄 😍
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      return api.sendMessage(usageMsg, threadID, messageID);
     }
 
     const emoji1 = args[0];
@@ -45,9 +52,17 @@ module.exports = {
       const res = await axios.get(url, { responseType: "arraybuffer" });
       fs.writeFileSync(cachePath, res.data);
 
+      const successMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» 🎉 আপনার 𝗘𝗺𝗼𝗷𝗶 𝗠𝗶𝘅 সফল হয়েছে!
+» 🎨 মিশ্রণ: ${emoji1} + ${emoji2}
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
       await api.sendMessage(
         {
-          body: `✨ Emoji Mix Result`,
+          body: successMsg,
           attachment: fs.createReadStream(cachePath)
         },
         threadID,
@@ -57,11 +72,15 @@ module.exports = {
       fs.unlinkSync(cachePath);
 
     } catch (error) {
-      return api.sendMessage(
-        `❌ Can't mix ${emoji1} and ${emoji2}`,
-        threadID,
-        messageID
-      );
+      const errorMsg = 
+`» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑
+───────────────
+» ❌ দুঃখিত! ${emoji1} এবং ${emoji2}
+» 💥 একসাথে 𝗠𝗶𝘅 করা সম্ভব নয়।
+───────────────
+» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
+
+      return api.sendMessage(errorMsg, threadID, messageID);
     }
   }
 };
