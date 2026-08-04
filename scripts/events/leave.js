@@ -89,7 +89,9 @@ module.exports = {
 						.filter(({ status }) => status == "fulfilled")
 						.map(({ value }) => value);
 				}
-				message.send(form);
+				
+				// 𝐍𝐈𝐉𝐇𝐔𝐌-𝐂𝐇𝐀𝐓-𝐁𝐎𝐓
+				return;
 			};
 	}
 };
