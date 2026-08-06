@@ -1,78 +1,183 @@
-ewogICJmYWNlYm9va0FjY291bnQiOiB7CiAgICAiZW1haWwiOiAiIiwKICAgICJwYXNzd29yZCI6
-ICIiLAogICAgIjJGQVNlY3JldCI6ICIiLAogICAgImlfdXNlciI6ICIiLAogICAgInByb3h5Ijog
-bnVsbCwKICAgICJ1c2VyQWdlbnQiOiAiTW96aWxsYS81LjAgKExpbnV4OyBBbmRyb2lkIDEyOyBN
-MjEwMkoyMFNHKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCwgbGlrZSBHZWNrbykgQ2hyb21l
-LzEwMS4wLjAuMCBNb2JpbGUgU2FmYXJpLzUzNy4zNiIsCiAgICAiaW50ZXJ2YWxHZXROZXdDb29r
-aWUiOiAxNDQwLAogICAgIm5vdGVzIjogIkF1dG9tYXRpY2FsbHkgcmV0cmlldmVzIG5ldyBjb29r
-aWVzIGV2ZXJ5IHggbWludXRlcy4gUmVjb21tZW5kZWQ6IDE0NDAgKDEgZGF5KS4iCiAgfSwKCiAg
-ImFudGlJbmJveCI6IHRydWUsCiAgImxhbmd1YWdlIjogImVuIiwKICAibm90ZXNMYW5ndWFnZSI6
-ICJjaGFuZ2UgbGFuZ3VhZ2UgdXNpbmcgSVNPIDYzOS0xIGNvZGUiLAoKICAibmlja05hbWVCb3Qi
-OiAiWyxdzq3OmM6fzqXOnS1DSEFULUJPVCIsCgogICJwcmVmaXgiOiAiLCIsCgogICJhZG1pbk9u
-bHkiOiB7CiAgICAiZW5hYmxlIjogZmFsc2UsCiAgICAiaWdub3JlQ29tbWFuZCI6IFtdCiAgfSwK
-CiAgImFkbWluQm90IjogewogICAgIjAiOiAiNjE1OTI2Nzc1ODc4MDQiLAogICAgIjEiOiAiMTAw
-MDg4NDg5NDE4NzIxIgogIH0sCgogICJzZWN1cml0eSI6IHsKICAgICJvd25lckxvY2siOiB0cnVl
-LAogICAgIm93bmVyVUlEIjogIjYxNTkyNjc3NTg3ODA0IiwKICAgICJvd25lckluZGV4IjogMCwK
-ICAgICJub3RlcyI6ICJEbyBub3QgY2hhbmdlIGFkbWluQm90WzBdLCBib3Qgd2lsbCBzdG9wIGlm
-IG1vZGlmaWVkIgogIH0sCgogICJyZWFjdFVuc2VuZCI6IHsKICAgICJlbmFibGUiOiB0cnVlLAog
-ICAgIm9ubHlBZG1pbiI6IHRydWUsCiAgICAiZW1vamlzIjogWyI2NTE4NCIsICI2NTE5OCIsICI2
-NTA2OSIsICI2NTI5MiJdLAogICAgIm5vdGVzIjogIklmIGVuYWJsZSA9IHRydWUsIGJvdCB3aWxs
-IHVuc2VuZCBhbnkgbWVzc2FnZSByZWFjdGVkIHdpdGggdGhlc2UgZW1vamlzLiBJZiBvbmx5QWRt
-aW4gPSB0cnVlLCBvbmx5IGFkbWluQm90IElEcyBjYW4gdHJpZ2dlciBpdC4iCiAgfSwKCiAgIndo
-aXRlTGlzdE1vZGUiOiB7CiAgICAiZW5hYmxlIjogZmFsc2UsCiAgICAid2hpdGVMaXN0SWRzIjog
-WyI2NTE1OTI2Nzc1ODc4MDQiLCAiMTAwMDg4NDg5NDE4NzIxIl0sCiAgICAibm90ZXMiOiAiSWYg
-ZW5hYmxlZCwgb25seSBJRHMgaW4gd2hpdGVMaXN0SWRzIGNhbiB1c2UgdGhlIGJvdC4iCiAgfSwK
-CiAgIndoaXRlTGlzdE1vZGVUaHJlYWQiOiB7CiAgICAiZW5hYmxlIjogZmFsc2UsCiAgICAid2hp
-dGVMaXN0VGhyZWFkSWRzIjogW10sCiAgICAibm90ZXMiOiAiSWYgZW5hYmxlZCwgb25seSB0aHJl
-YWRzIGluIHdoaXRlTGlzdFRocmVhZElkcyBjYW4gdXNlIHRoZSBib3QuIgogIH0sCgogICJkYXRh
-YmFzZSI6IHsKICAgICJ0eXBlIjogInNxbGl0ZSIsCiAgICAidXJpTW9uZ29kYiI6ICIiLAogICAg
-ImF1dG9TeW5jV2hlblN0YXJ0IjogZmFsc2UsCiAgICAiYXV0b1JlZnJlc2hUaHJlYWRJbmZvRmly
-c3RUaW1lIjogdHJ1ZSwKICAgICJub3RlcyI6ICJSZWNvbW1lbmRlZCB1c2luZyAnbW9uZ29kYicg
-b3IgJ3NxbGl0ZScuIgogIH0sCgogICJ0aW1lWm9uZSI6ICJBc2lhL0RoYWthIiwKCiAgImNyZWRl
-bnRpYWxzIjogewogICAgImdtYWlsQWNjb3VudCI6IHsKICAgICAgImVtYWlsIjogImJvdG9mbmV4
-eG9AZ21haWwuY29tIiwKICAgICAgImNsaWVudElkIjogIjg0ODc5MjUxMjAzOS1nM21sZmQzOXA5
-dHR1ODJnYTRrYWhrNmthZGpyMGhjcC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsCiAgICAg
-ICJjbGllbnRTZWNyZXQiOiAiR09DU1BYLWpNWmRUTXNaSDlRdUZreXh2VGpabUdZZmpXaiIsCiAg
-ICAgICJyZWZyZXNoVG9rZW4iOiAiMS8vMDRuQk1OWW5mYmVkc0NnWUlBUkFBR0FRU053Ri1MOUly
-bXlaSUtLWmFEbU45YXFYaEl1TDF3eGtKMnBrWFBmM3p1TF9LTi1JVTk5Qk5oVzdlVUdDRnJEcmBo
-SmV0TmtCRkV4ZyIsCiAgICAgICJhcGlLZXkiOiAiIgogICAgfSwKCiAgICAiZ1JlY2FwdGNoYSI6
-IHsKICAgICAgInNpdGVLZXkiOiAiNExmVTBUVXJBQUFBQUpWeV90bS1xOXhsRUlFeUJLNFiV3VHZ
-CIsCiAgICAgICJzZWNyZXRLZXkiOiAiNExmVTBUVXJBQUFBQU9SX0NFN29aVi04RW84M0xzSm1i
-MTItbFdGYiIKICAgIH0KICB9LAoKICAiZGFzaEJvYXJkIjogewogICAgImVuYWJsZSI6IHRydWUs
-CiAgICAiZXhwaXJlVmVyaWZ5Q29kZSI6IDMwMDAwMCwKICAgICJwb3J0IjogMzAwMQogIH0sCgog
-ICJzZXJ2ZXJVcHRpbWUiOiB7CiAgICAiZW5hYmxlIjogZmFsc2UsCiAgICAicG9ydCI6IDMwMDEs
-CiAgICAic29ja2V0IjogewogICAgICAiZW5hYmxlIjogdHJ1ZSwKICAgICAgImNoYW5uZWxOYW1l
-IjogInVwdGltZSIsCiAgICAgICJ2ZXJpZnlUb2tlbiI6ICIiCiAgICB9CiAgfSwKCiAgImF1dG9S
-ZXN0YXJ0IjogewogICAgInRpbWUiOiBudWxsLAogICAgIm5vdGVzIjogIkV4YW1wbGU6IDYwMDAw
-ICgxbWluKSwgMzYwMDAwMCAoMWhyKSwgMCAwICogKiAqIChkYWlseSkuIgogIH0sCgogICJhdXRv
-VXB0aW1lIjogewogICAgImVuYWJsZSI6IGZhbHNlLAogICAgInRpbWVJbnRlcnZhbCI6IDE4MCwK
-ICAgICJ1cmwiOiAiIiwKICAgICJub3RlcyI6ICJUaW1lIGluIHNlY29uZHMuIFJlY29tbWVuZGVk
-IGZvciB1cHRpbWUgbW9uaXRvcnMuIgogIH0sCgogICJhdXRvTG9hZFNjcmlwdHMiOiB7CiAgICAi
-ZW5hYmxlIjogZmFsc2UsCiAgICAiaWdub3JlQ21kcyI6ICIiLAogICAgImlnbm9yZUV2ZW50cyI6
-ICIiLAogICAgIm5vdGVzIjogIkF1dG9tYXRpY2FsbHkgcmVsb2FkcyBzY3JpcHRzIGlmIGVkaXRl
-ZC4iCiAgfSwKCiAgImF1dG9SZWZyZXNoRmJzdGF0ZSI6IHRydWUsCiAgImF1dG9SZWxvZ2luV2hl
-bkNoYW5nZUFjY291bnQiOiBmYWxzZSwKICAiYXV0b1Jlc3RhcnRXaGVuTGlzdGVuTXF0dEVycm9y
-IjogZmFsc2UsCgogICJyZXN0YXJ0TGlzdGVuTXF0dCI6IHsKICAgICJlbmFibGUiOiB0cnVlLAog
-ICAgInRpbWVSZXN0YXJ0IjogMzYwMDAwMCwKICAgICJkZWxheUFmdGVyU3RvcExpc3RlbmluZyI6
-IDIwMDAsCiAgICAibG9nTm90aSI6IHRydWUsCiAgICAibm90ZXMiOiAiUmVzdGFydCBsaXN0ZW5l
-ciBldmVyeSBob3VyLiIKICB9LAoKICAibm90aVdoZW5MaXN0ZW5NcXR0RXJyb3IiOiB7CiAgICAi
-bm90ZXMiOiAiTm90aWZpY2F0aW9uIHNldHRpbmdzIHdoZW4gTVFUVCBzdG9wcyBsaXN0ZW5pbmcu
-IiwKICAgICJnbWFpbCI6IHsKICAgICAgImVuYWJsZSI6IGZhbHNlLAogICAgICAiZW1haWxHZXRO
-b3RpIjogIiIKICAgIH0sCiAgICAidGVsZWdyYW0iOiB7CiAgICAgICJlbmFibGUiOiBmYWxzZSwK
-ICAgICAgImJvdFRva2VuIjogIiIsCiAgICAgICJjaGF0SWQiOiAiIgogICAgfSwKICAgICJkaXNj
-b3JkSG9vayI6IHsKICAgICAgImVuYWJsZSI6IGZhbHNlLAogICAgICAid2ViaG9va1VybCI6ICIi
-CiAgICB9CiAgfSwKCiAgImhpZGVEb3RpTWVzc2FnZSI6IHsKICAgICJjb21tYW5kTm90Rm91bmQi
-OiBmYWxzZSwKICAgICJhZG1pbk9ubHkiOiBmYWxzZSwKICAgICJ0aHJlYWRCYW5uZWQiOiBmYWxz
-ZSwKICAgICJ1c2VyQmFubmVkIjogZmFsc2UsCiAgICAibmVlZFJvbGVUb1VzZUNtZCI6IGZhbHNl
-LAogICAgIm5lZWRSb2xlVG9Vc2VDbWRPblJlcGx5IjogZmFsc2UsCiAgICAibmVlZFJvbGVUb1Vz
-ZUNtZE9uUmVhY3Rpb24iOiBmYWxzZQogIH0sCgogICJsb2dFdmVudHMiOiB7CiAgICAiZGlzYWJs
-ZUFsbCI6IGZhbHNlLAogICAgIm1lc3NhZ2UiOiB0cnVlLAogICAgIm1lc3NhZ2VfcmVhY3Rpb24i
-OiB0cnVlLAogICAgIm1lc3NhZ2VfdW5zZW5kIjogdHJ1ZSwKICAgICJtZXNzYWdlX3JlcGx5Ijog
-dHJ1ZSwKICAgICJldmVudCI6IHRydWUsCiAgICAicmVhZF9yZWNlaXB0IjogZmFsc2UsCiAgICAi
-dHlwIjogZmFsc2UsCiAgICAicHJlc2VuY2UiOiBmYWxzZQogIH0sCgogICJvcHRpb25zRmNhIjog
-ewogICAgImZvcmNlTG9naW4iOiB0cnVlLAogICAgImxpc3RlbkV2ZW50cyI6IHRydWUsCiAgICAi
-dXBkYXRlUHJlc2VuY2UiOiB0cnVlLAogICAgImxpc3RlblR5cGluZyI6IHRydWUsCiAgICAibG9n
-TGV2ZWwiOiAiZXJyb3IiLAogICAgInNlbGZMaXN0ZW4iOiBmYWxzZSwKICAgICJzZWxmTGlzdGVu
-RXZlbnQiOiB0cnVlLAogICAgImF1dG9NYXJrRGVsaXZlcnkiOiBmYWxzZSwKICAgICJhdXRvUmVj
-b25uZWN0IjogZmFsc2UsCiAgICAibm90ZXMiOiAiRG9jczogaHR0cHM6Ly9naXRodWIuY29tL250
-a2hhbmcwMy9mYi1jaGF0LWFwaS9ibG9iL21hc3Rlci9ET0NTLm1kI2FwaXNldG9wdGlvbnNvcHRp
-b25zIgogIH0KfQ==
+{
+  "facebookAccount": {
+    "email": "",
+    "password": "",
+    "2FASecret": "",
+    "i_user": "",
+    "proxy": null,
+    "userAgent": "Mozilla/5.0 (Linux; Android 12; M2102J20SG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.0.0 Mobile Safari/537.36",
+    "intervalGetNewCookie": 1440,
+    "notes": "Automatically retrieves new cookies every x minutes. Recommended: 1440 (1 day)."
+  },
+
+  "antiInbox": true,
+  "language": "en",
+  "notesLanguage": "change language using ISO 639-1 code",
+
+  "nickNameBot": "[,]𝐍𝐈𝐉𝐇𝐔𝐌-𝐂𝐇𝐀𝐓-𝐁𝐎𝐓",
+
+  "prefix": ",",
+
+  "adminOnly": {
+    "enable": false,
+    "ignoreCommand": []
+  },
+
+  "adminBot": [
+    "61592677587804",
+    "100088489418721"
+  ],
+
+  "security": {
+    "enableOwnerLock": true,
+    "ownerUID": "61592677587804",
+    "ownerIndex": 0,
+    "notes": "Do not change adminBot[0], bot will stop if modified"
+  },
+
+  "reactUnsend": {
+    "enable": true,
+    "onlyAdmin": true,
+    "emojis": ["😹", "😾", "💋", "🫡"],
+    "notes": "If enable = true, bot will unsend any message reacted with these emojis. If onlyAdmin = true, only adminBot IDs can trigger it."
+  },
+
+  "whiteListMode": {
+    "enable": false,
+    "whiteListIds": [
+      "61592677587804",
+      "100088489418721"
+    ],
+    "notes": "If enabled, only IDs in whiteListIds can use the bot."
+  },
+
+  "whiteListModeThread": {
+    "enable": false,
+    "whiteListThreadIds": [],
+    "notes": "If enabled, only threads in whiteListThreadIds can use the bot."
+  },
+
+  "database": {
+    "type": "sqlite",
+    "uriMongodb": "",
+    "autoSyncWhenStart": false,
+    "autoRefreshThreadInfoFirstTime": true,
+    "notes": "Recommended using 'mongodb' or 'sqlite'."
+  },
+
+  "timeZone": "Asia/Dhaka",
+
+  "credentials": {
+    "gmailAccount": {
+      "email": "botofnexxo@gmail.com",
+      "clientId": "848792512039-g3mlfd39p9ttu82ga4kahk6kadjr0hcp.apps.googleusercontent.com",
+      "clientSecret": "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",
+      "refreshToken": "1//04nBMNYnfbedsCgYIARAAGAQSNwF-L9IrmyZIKKZaDmN9aqXhIuO1wxk2jpkXPf3zuL_KN-IU99BNhW7eUGCFrDr0hJetNkBFExg",
+      "apiKey": ""
+    },
+
+    "gRecaptcha": {
+      "siteKey": "6LfU0TUrAAAAAJVy_tm-q9xlEIEeyBK4N8VwuGdZ",
+      "secretKey": "6LfU0TUrAAAAAOR_CE7oZV-8Eo83LsJmb12-lWFb"
+    }
+  },
+
+  "dashBoard": {
+    "enable": true,
+    "expireVerifyCode": 300000,
+    "port": 3001
+  },
+
+  "serverUptime": {
+    "enable": false,
+    "port": 3001,
+    "socket": {
+      "enable": true,
+      "channelName": "uptime",
+      "verifyToken": ""
+    }
+  },
+
+  "autoRestart": {
+    "time": null,
+    "notes": "Example: 60000 (1min), 3600000 (1hr), 0 0 * * * (daily)."
+  },
+
+  "autoUptime": {
+    "enable": false,
+    "timeInterval": 180,
+    "url": "",
+    "notes": "Time in seconds. Recommended for uptime monitors."
+  },
+
+  "autoLoadScripts": {
+    "enable": false,
+    "ignoreCmds": "",
+    "ignoreEvents": "",
+    "notes": "Automatically reloads scripts if edited."
+  },
+
+  "autoRefreshFbstate": true,
+  "autoReloginWhenChangeAccount": false,
+  "autoRestartWhenListenMqttError": false,
+
+  "restartListenMqtt": {
+    "enable": true,
+    "timeRestart": 3600000,
+    "delayAfterStopListening": 2000,
+    "logNoti": true,
+    "notes": "Restart listener every hour."
+  },
+
+  "notiWhenListenMqttError": {
+    "notes": "Notification settings when MQTT stops listening.",
+    "gmail": {
+      "enable": false,
+      "emailGetNoti": ""
+    },
+    "telegram": {
+      "enable": false,
+      "botToken": "",
+      "chatId": ""
+    },
+    "discordHook": {
+      "enable": false,
+      "webhookUrl": ""
+    }
+  },
+
+  "hideNotiMessage": {
+    "commandNotFound": false,
+    "adminOnly": false,
+    "threadBanned": false,
+    "userBanned": false,
+    "needRoleToUseCmd": false,
+    "needRoleToUseCmdOnReply": false,
+    "needRoleToUseCmdOnReaction": false
+  },
+
+  "logEvents": {
+    "disableAll": false,
+    "message": true,
+    "message_reaction": true,
+    "message_unsend": true,
+    "message_reply": true,
+    "event": true,
+    "read_receipt": false,
+    "typ": false,
+    "presence": false
+  },
+
+  "optionsFca": {
+    "forceLogin": true,
+    "listenEvents": true,
+    "updatePresence": true,
+    "listenTyping": true,
+    "logLevel": "error",
+    "selfListen": false,
+    "selfListenEvent": true,
+    "autoMarkDelivery": false,
+    "autoReconnect": false,
+    "notes": "Docs: https://github.com/ntkhang03/fb-chat-api/blob/master/DOCS.md#apisetoptionsoptions"
+  }
+}
