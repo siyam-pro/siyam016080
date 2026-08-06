@@ -8,7 +8,7 @@ module.exports = {
     name: "chipay",
     aliases: ["corner", "muri"],
     version: "2.4.9",
-    author: "𝐒𝐈𝐘𝐀𝐌",
+    author: "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     shortDescription: "Fun command with image and stylish caption",
