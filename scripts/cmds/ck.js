@@ -43,7 +43,7 @@ async function handle({ api, event, args }) {
 
     if (!user)
       return api.sendMessage(
-        "ইউজার ইনফো পাওয়া যায়নি।",
+        "ইউজার ইনফো পাওয়া যায়নি।",
         threadID,
         messageID
       );
@@ -51,17 +51,17 @@ async function handle({ api, event, args }) {
     let name = user.name || "Unknown";
     let gender =
       user.gender === 2
-        ? "পুরুষ"
+        ? "Male"
         : user.gender === 1
-        ? "মহিলা"
-        : "অজানা";
+        ? "Female"
+        : "Unknown";
 
-    let friend = user.isFriend ? "হ্যাঁ" : "না";
-    let vanity = user.vanity || "নেই";
+    let friend = user.isFriend ? "Yes" : "No";
+    let vanity = user.vanity || "None";
 
     let path = __dirname + `/cache/info_${id}.png`;
 
-    let msg = `📝 নাম: ${name}\n🆔 UID: ${id}\n🔗 ইউজারনেম: ${vanity}\n🚻 লিঙ্গ: ${gender}\n🤝 বটের বন্ধু: ${friend}\n🌐 fb.com/${id}`;
+    let msg = `📝 𝐍𝐚𝐦𝐞: ${name}\n🆔 𝐔𝐈𝐃: ${id}\n🔗 𝐔𝐬𝐞𝐫𝐧𝐚𝐦𝐞: ${vanity}\n🚻 𝐆𝐞𝐧𝐝𝐞𝐫: ${gender}\n🤝 𝐁𝐨𝐭 𝐅𝐫𝐢𝐞𝐧𝐝: ${friend}\n🌐 fb.com/${id}`;
 
     let callback = () => {
       api.sendMessage(
@@ -84,7 +84,7 @@ async function handle({ api, event, args }) {
       .on("close", callback);
   } catch (err) {
     return api.sendMessage(
-      "ইউজার আইডি পাওয়া যায়নি।",
+      "ইউজার আইডি পাওয়া যায়নি।",
       threadID,
       messageID
     );
@@ -105,7 +105,7 @@ async function getBoxInfo(api, event, args) {
       (u) => u.gender === "FEMALE"
     ).length;
 
-    let msg = `🏠 গ্রুপ: ${threadInfo.threadName}\n🆔 TID: ${targetTID}\n📊 মেম্বার: ${threadInfo.participantIDs.length}\n👦 ছেলে: ${male} | 👧 মেয়ে: ${female}`;
+    let msg = `🏠 𝐆𝐫𝐨𝐮𝐩: ${threadInfo.threadName}\n🆔 𝐓𝐈𝐃: ${targetTID}\n📊 𝐌𝐞𝐦𝐛𝐞𝐫𝐬: ${threadInfo.participantIDs.length}\n👦 𝐌𝐚𝐥𝐞: ${male} | 👧 𝐅𝐞𝐦𝐚𝐥𝐞: ${female}`;
 
     if (!threadInfo.imageSrc) {
       return api.sendMessage(msg, event.threadID);
@@ -132,7 +132,7 @@ async function getBoxInfo(api, event, args) {
 
 // ================= ADMIN INFO =================
 async function getAdminInfo(api, event) {
-  let msg = `👤 এডমিন: Joy Ahmed\n🔗 fb.com/100003661522127`;
+  let msg = `👤 𝐀𝐝𝐦𝐢𝐧: Joy Ahmed\n🔗 fb.com/100003661522127`;
   let path = __dirname + "/cache/admin.png";
 
   return request(
