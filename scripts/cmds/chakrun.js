@@ -8,7 +8,7 @@ module.exports = {
   config: {
     name: "chakrun",
     version: "15.0.0",
-    author: "SIYAM HASAN",
+    author: "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     category: "system",
