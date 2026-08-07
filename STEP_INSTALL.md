@@ -1,30 +1,25 @@
-┌─────────────────────────────────────────────
-│             GOAT BOT AKASH V2
-│       STEP-BY-STEP INSTALL GUIDE
-└─────────────────────────────────────────────
+𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 V2
+STEP-BY-STEP INSTALL GUIDE
 
-This guide will show you how to set up GOAT BOT AKASH V2, deploy it on Render, and monitor it using UptimeRobot.
+এই গাইডে 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 V2 সেটআপ, Render-এ ডিপ্লয় এবং UptimeRobot দিয়ে মনিটর করার সম্পূর্ণ নিয়ম দেখানো হয়েছে।
 
-─────────────────────────────────────────────
-1️⃣ IMPORT REPOSITORY ON GITHUB
+১) Github Repository Import
 
-1. Log in to Github.
-2. Click New Repository → Import repository.
-3. Paste the repository link:
-   https://github.com/mdakashproject/GOAT-BOT-AKASH-V2.git
-4. Select Private Repository.
-5. Click Begin import.
+১. Github-এ লগইন করুন।
+২. New Repository → Import Repository নির্বাচন করুন।
+৩. Repository Link:
+"https://github.com/mdakashproject/GOAT-BOT-AKASH-V2.git"
+৪. Private Repository নির্বাচন করুন।
+৫. Begin Import-এ ক্লিক করুন।
 
-> Now your own private repository has been created.
+নোট: আপনার নিজস্ব Private Repository তৈরি হয়ে যাবে।
 
-─────────────────────────────────────────────
-2️⃣ CONFIGURE config.json
+২) Config.json Setup
 
-1. Clone the repository or edit config.json on Github.
-2. Set the following values:
+config.json ফাইলটি এডিট করে নিচের তথ্য বসান:
 
 {
-  "nickNameBot": "♡┋Տʜɪᴢᴜᴋꫝㅤᥫ᭡",
+  "nickNameBot": "𝆠፝𝐍𝐈𝐉𝐇𝐔𝐌-𝐂𝐇𝐀𝐓-𝐁𝐎𝐓",
   "adminBot": [
     "100078049308655",
     "61577213967981"
@@ -32,41 +27,91 @@ This guide will show you how to set up GOAT BOT AKASH V2, deploy it on Render, a
   "uid": "YOUR_FB_UID"
 }
 
-- nickNameBot: Bot's display name.
-- adminBot: Facebook IDs of the admins.
-- uid: Your Facebook user ID.
+nickNameBot → বটের নাম
+adminBot → অ্যাডমিনদের Facebook ID
+uid → আপনার Facebook UID
 
-─────────────────────────────────────────────
-3️⃣ EXPORT FACEBOOK COOKIE
+৩) Facebook Cookie Export
 
-1. Install C3C FBState Utility Extension.
-2. Log in to the Facebook account you will use for the bot.
-3. Use the extension to export JSON cookie.
-4. Paste the copied JSON into account.txt.
+১. C3C FBState Utility Extension ইনস্টল করুন।
+২. বট চালানোর Facebook Account-এ লগইন করুন।
+৩. Extension দিয়ে JSON Cookie Export করুন।
+৪. Copy করা JSON টি account.txt-এ Paste করুন।
 
-> Keep this file safe, do not share it with anyone.
+নোট: account.txt কখনো কারও সাথে শেয়ার করবেন না।
 
-─────────────────────────────────────────────
-4️⃣ DEPLOY ON RENDER
+৪) Deploy on Render
 
-1. Log in to Render.com.
-2. Click New Web Service → Connect Github Repo → select your private repository.
-3. Set environment variables if needed (.env).
-4. Click Deploy.
-5. Once deployed, copy the Render URL.
+১. Render.com-এ লগইন করুন।
+২. New Web Service → Connect Github Repo নির্বাচন করুন।
+৩. প্রয়োজনে .env Variables সেট করুন।
+৪. Deploy-এ ক্লিক করুন।
+৫. Deploy সম্পন্ন হলে Render URL কপি করুন।
 
-─────────────────────────────────────────────
-5️⃣ MONITOR WITH UPTIMEROBOT
+৫) Monitor with UptimeRobot
 
-1. Log in to UptimeRobot.com.
-2. Click Add New Monitor → Monitor Type: HTTP(s).
-3. Paste your Render URL.
-4. Set the check interval (e.g., 5 minutes).
-5. Click Create Monitor.
+১. UptimeRobot.com-এ লগইন করুন।
+২. Add New Monitor → HTTP(S) নির্বাচন করুন।
+৩. Render URL Paste করুন।
+৪. Check Interval (যেমন 5 Minutes) সেট করুন।
+৫. Create Monitor-এ ক্লিক করুন।
 
-> Your bot will now run 24/7 and be monitored by UptimeRobot.
+নোট: আপনার বট 24/7 চালু থাকবে এবং UptimeRobot দ্বারা মনিটর হবে।
 
-─────────────────────────────────────────────
-CONGRATULATIONS
-You have successfully set up GOAT BOT AKASH V2. Your bot is now running and your admin IDs are active.
-─────────────────────────────────────────────
+অভিনন্দন!
+আপনি সফলভাবে 𝐒𝐈𝐘𝐌-𝐇𝐀𝐒𝐀𝐍 V2 সেটআপ করেছেন। আপনার Bot এখন Running এবং Admin ID সক্রিয়।
+
+━━━━━━━━━━━━━━━━━━━━
+
+𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 V2
+STEP-BY-STEP INSTALL GUIDE
+
+SET UP 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 V2, DEPLOY ON RENDER & MONITOR WITH UPTIMEROBOT
+
+1. IMPORT REPOSITORY
+• Log in to Github
+• Open New Repository → Import Repository
+• Repository:
+"https://github.com/mdakashproject/GOAT-BOT-AKASH-V2.git"
+• Select Private Repository
+• Click Begin Import
+
+2. CONFIGURE CONFIG.JSON
+
+{
+  "nickNameBot": "𝆠፝𝐍𝐈𝐉𝐇𝐔𝐌-𝐂𝐇𝐀𝐓-𝐁𝐎𝐓",
+  "adminBot": [
+    "100078049308655",
+    "61577213967981"
+    ],
+  "uid": "YOUR_FB_UID"
+}
+
+nickNameBot → Bot Name
+adminBot → Admin Facebook IDs
+uid → Your Facebook UID
+
+3. EXPORT FACEBOOK COOKIE
+• Install C3C FBState Utility Extension
+• Log in to your Facebook Account
+• Export JSON Cookie
+• Paste it into account.txt
+
+Keep account.txt private.
+
+4. DEPLOY ON RENDER
+• Log in to Render.com
+• New Web Service → Connect Github Repo
+• Set .env Variables if needed
+• Click Deploy
+• Copy your Render URL
+
+5. MONITOR WITH UPTIMEROBOT
+• Log in to UptimeRobot.com
+• Add New Monitor → HTTP(S)
+• Paste Render URL
+• Set Check Interval (5 Minutes)
+• Click Create Monitor
+
+CONGRATULATIONS!
+𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 V2 is now successfully installed and running.
