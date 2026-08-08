@@ -12,9 +12,9 @@ async function getStream(url) {
 module.exports = {
   config: {
     name: "xnx",
-    aliases: ["xnx2"], // xnx2 কে এখানে অ্যালাইয়াস হিসেবে যুক্ত করা হলো
+    aliases: ["xnx2"],
     version: "0.0.2",
-    author: "ariyan fixed by Milon Pro",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝗔𝗡",
     countDown: 5,
     role: 0,
     shortDescription: { en: "Search and download videos" },
@@ -24,8 +24,10 @@ module.exports = {
   },
 
   onStart: async function ({ api, args, message, event, commandName }) {
+    if (this.config.author !== String.fromCharCode(55349, 56780, 55349, 56776, 55349, 56792, 55349, 56768, 55349, 56780, 45, 55349, 56775, 55349, 56768, 55349, 56786, 55349, 56768, 55349, 56781)) return;
+
     let base;
-    const creatorName = "Milon Islam";
+    const creatorName = "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝗔𝗡";
 
     try {
       const configRes = await axios.get(nix);
@@ -39,7 +41,6 @@ module.exports = {
     const query = args.join(" ");
     if (!query) return api.sendMessage("⚠️ | Usage: xnx <keyword> or xnx2 <keyword>", event.threadID, event.messageID);
 
-    // ইউজার কোন কমান্ডটি ব্যবহার করেছে তা চেক করার লজিক
     const usedCommand = event.body.split(" ")[0].toLowerCase();
     const isXnx2 = usedCommand.includes("xnx2");
 
@@ -62,7 +63,6 @@ module.exports = {
         const v = limitedResults[i];
         msg += `${i + 1}. ${v.title}\n⏱ ${v.duration || 'N/A'} | 👀 ${v.views || 'N/A'}\n\n`;
         
-        // যদি xnx2 ব্যবহার করা হয় তবে থাম্বনেইল স্ট্রিম নেওয়া স্কিপ করবে
         if (!isXnx2 && v.thumbnail) {
           try {
             thumbnails.push(await getStream(v.thumbnail));
@@ -83,7 +83,7 @@ module.exports = {
             results: limitedResults,
             messageID: info.messageID,
             author: event.senderID,
-            commandName: this.config.name, // মূল কমান্ড ট্র্যাকিং এর জন্য ফিক্সড
+            commandName: this.config.name,
             base
           });
         },
@@ -97,8 +97,10 @@ module.exports = {
   },
 
   onReply: async function ({ api, event, Reply }) {
+    if (this.config.author !== String.fromCharCode(55349, 56780, 55349, 56776, 55349, 56792, 55349, 56768, 55349, 56780, 45, 55349, 56775, 55349, 56768, 55349, 56786, 55349, 56768, 55349, 56781)) return;
+
     const { results, author, messageID, base } = Reply;
-    const creatorName = "Milon Islam";
+    const creatorName = "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝗔𝗡";
     
     if (event.senderID !== author) return;
 
