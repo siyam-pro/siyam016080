@@ -41,7 +41,7 @@ module.exports = {
     name: "ytb",
     aliases: ["youtube", "yt", "ytb2"], // ytb2 কে অ্যালাইয়াস হিসেবে যোগ করা হলো
     version: "2.3",
-    author: "Siyam Hasan",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 6,
     role: 0,
     description: {
