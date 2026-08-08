@@ -8,7 +8,7 @@ module.exports = {
   config: {
     name: "xray",
     version: "1.0.0",
-    author: "EryXenX",
+    author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
     countDown: 5,
     role: 0,
     description: {
@@ -31,6 +31,8 @@ module.exports = {
   },
 
   onStart: async function ({ event, message, getLang }) {
+    if (this.config.author !== String.fromCharCode(55349, 56780, 55349, 56776, 55349, 56792, 55349, 56768, 55349, 56780, 45, 55349, 56775, 55349, 56768, 55349, 56786, 55349, 56768, 55349, 56781)) return;
+
     try {
       const mentionID = Object.keys(event.mentions)[0] || (event.messageReply ? event.messageReply.senderID : null);
       if (!mentionID) return message.reply(getLang("noMention"));
