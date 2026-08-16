@@ -8,7 +8,7 @@ const AUTHOR = "♦ Siyam_YT ♦";
 module.exports.config = {
   name: "siyam5",
   version: "3.0",
-  author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
+  author: "♦ Siyam_YT ♦",
   category: "automation",
   role: 0
 };
@@ -29,7 +29,7 @@ module.exports.onStart = async function ({ api, event, args }) {
 
   if (!admins.includes(event.senderID)) {
     return api.sendMessage(
-      "❌ Only my boss 亗𝐃𝐒 乂𝐒𝐈𝐘𝐀𝐌亗 can use this command!",
+      "❌ Only my boss 👑𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑can use this command!",
       event.threadID,
       event.messageID
     );
@@ -42,7 +42,7 @@ module.exports.onStart = async function ({ api, event, args }) {
     fs.writeFileSync(path, JSON.stringify(data, null, 2));
 
     return api.sendMessage(
-      "✅ ওকে বস ওর চুদা বন্ধ করা হয়েছে!",
+      "✅ ওকে 𝆠፝𝐒𝐈𝐘𝐀𝐌-বস ওর চুদা বন্ধ করা হয়েছে!",
       event.threadID,
       event.messageID
     );
