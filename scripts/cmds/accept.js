@@ -3,7 +3,7 @@ const axios = require("axios");
 module.exports = {
 config: {
 name: "accept",
-aliases: ['acp', 'requests'],
+aliases: ['fn', 'requests'],
 version: "6.0.0",
 author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
 countDown: 5,
