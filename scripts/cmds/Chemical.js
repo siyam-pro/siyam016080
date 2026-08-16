@@ -218,9 +218,10 @@ module.exports = {
 ───────────────
 👤 নাম: ${targetName}
 📌 অপরাধ: ${randomCrime}
-💰 পুরষ্কার: ${formattedBounty}
+💰 জরিমানা: ${formattedBounty}
 
-⚠️ একে দেখলে দ্রুত নিকটস্থ গ্রুপ এডমিনকে খবর দিন!
+⚠️ একে দেখলে দ্রুত 
+❎ সিয়াম ভাই কে খবর দিন!
 ───────────────
 » 🧚‍♀️ 𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧`;
 
@@ -235,7 +236,7 @@ module.exports = {
 
     } catch (e) {
       console.error(e);
-      return api.sendMessage("❌ ওয়ান্টেড পোস্টার তৈরি করতে সমস্যা হয়েছে!", event.threadID);
+      return api.sendMessage("❌ ওয়ান্টেড পোস্টার তৈরি করতে সমস্যা হয়েছে সিয়াম!", event.threadID);
     }
   }
 };
