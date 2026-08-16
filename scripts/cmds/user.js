@@ -2,16 +2,16 @@ const { getTime } = global.utils;
 
 module.exports = {
 	config: {
-		name: "user",
+		name: "𝐮𝐬𝐞𝐫",
 		version: "1.4",
-		author: "MR_FARHAN",
+		author: "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
 		countDown: 5,
 		role: 2,
 		description: {
 			vi: "Quản lý người dùng trong hệ thống bot",
 			en: "Manage users in bot system"
 		},
-		category: "owner",
+		category: "𝐨𝐰𝐧𝐞𝐫",
 		guide: {
 			vi: "   {pn} [find | -f | search | -s] <tên cần tìm>: tìm kiếm người dùng trong dữ liệu bot bằng tên"
 				+ "\n"
@@ -62,7 +62,7 @@ module.exports = {
 				const allUser = await usersData.getAll();
 				const keyWord = args.slice(1).join(" ");
 				const result = allUser.filter(item => (item.name || "").toLowerCase().includes(keyWord.toLowerCase()));
-				const msg = result.reduce((i, user) => i += `\n╭Name: ${user.name}\n╰ID: ${user.userID}`, "");
+				const msg = result.reduce((i, user) => i += `\n╭𝐍𝐚𝐦𝐞: ${user.name}\n╰𝐈𝐃: ${user.userID}`, "");
 				message.reply(result.length == 0 ? getLang("noUserFound", keyWord) : getLang("userFound", result.length, keyWord, msg));
 				break;
 			}
@@ -131,6 +131,7 @@ module.exports = {
 				const status = userData.banned.status;
 				if (!status)
 					return message.reply(getLang("userNotBanned", uid, name));
+				else
 				await usersData.set(uid, {
 					banned: {}
 				});
