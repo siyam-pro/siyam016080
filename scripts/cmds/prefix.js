@@ -13,10 +13,11 @@ global.GoatBot.prefixVideoToggle = global.GoatBot.prefixVideoToggle || {};
 module.exports = {
   config: {
     name: "prefix",
-    version: "2.6",
+    version: "2.7",
     author: "𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍",
-    countDown: 5,
+    countDown: 1,
     role: 0,
+    priority: 99999,
     description: "Change & show bot prefix",
     category: "config"
   },
@@ -49,14 +50,21 @@ module.exports = {
     if (setGlobal && role < 2)
       return message.reply(getLang("onlyAdmin"));
 
-    const media = await getStreamFromURL(mediaList[0]);
+    let media;
+    try {
+      media = await getStreamFromURL(mediaList[0]);
+    } catch (e) {
+      media = null;
+    }
 
     const confirmMsg = setGlobal
       ? getLang("confirmGlobal")
       : getLang("confirmThisThread");
 
+    const sendData = media ? { body: confirmMsg, attachment: media } : confirmMsg;
+
     message.reply(
-      { body: confirmMsg, attachment: media },
+      sendData,
       (err, info) => {
         if (err) return;
 
@@ -96,32 +104,40 @@ module.exports = {
   },
 
   onChat: async function ({ event, message, threadsData }) {
-    if (!event.body || event.body.toLowerCase() !== "prefix") return;
+    if (!event.body) return;
 
-    const threadID = event.threadID;
+    const msgText = event.body.toLowerCase().trim();
 
-    if (global.GoatBot.prefixVideoToggle[threadID] === undefined)
-      global.GoatBot.prefixVideoToggle[threadID] = 0;
+    if (msgText === "prefix" || msgText === "প্রিফিক্স") {
+      const threadID = event.threadID;
 
-    const index = global.GoatBot.prefixVideoToggle[threadID];
-    global.GoatBot.prefixVideoToggle[threadID] = index === 0 ? 1 : 0;
+      if (global.GoatBot.prefixVideoToggle[threadID] === undefined)
+        global.GoatBot.prefixVideoToggle[threadID] = 0;
 
-    const media = await getStreamFromURL(mediaList[index]);
+      const index = global.GoatBot.prefixVideoToggle[threadID];
+      global.GoatBot.prefixVideoToggle[threadID] = index === 0 ? 1 : 0;
 
-    const systemPrefix = global.GoatBot.config.prefix;
-    const groupPrefix = global.utils.getPrefix(threadID);
+      let media;
+      try {
+        media = await getStreamFromURL(mediaList[index]);
+      } catch (e) {
+        media = null;
+      }
 
-    const threadInfo = await threadsData.get(threadID);
-    const groupName = threadInfo?.threadName || "Unknown Group";
+      const systemPrefix = global.GoatBot.config.prefix;
+      const groupPrefix = global.utils.getPrefix(threadID);
 
-    const time = moment().tz("Asia/Dhaka").format("hh:mm A");
-    const date = moment().tz("Asia/Dhaka").format("DD MMM YYYY");
+      const threadInfo = await threadsData.get(threadID);
+      const groupName = threadInfo?.threadName || "Unknown Group";
 
-    const owner = "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
-    
-    const totalCommands = global.GoatBot.commands ? global.GoatBot.commands.size : 0;
+      const time = moment().tz("Asia/Dhaka").format("hh:mm A");
+      const date = moment().tz("Asia/Dhaka").format("DD MMM YYYY");
 
-    const design1 = `╭👑 𝐏𝐑𝐄𝐅𝐈𝐗 𝐏𝐀𝐍𝐄𝐋 👑 ╮
+      const owner = "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
+      
+      const totalCommands = global.GoatBot.commands ? global.GoatBot.commands.size : 0;
+
+      const design1 = `╭👑 𝐏𝐑𝐄𝐅𝐈𝐗 𝐏𝐀𝐍𝐄𝐋 👑 ╮
 🏷️ 𝐆𝐑𝐎𝐔𝐏 ➜ ${groupName}
 🔰 𝐒𝐘𝐒𝐓𝐄𝐌 ➜ ${systemPrefix}
 💬 𝐏𝐑𝐄𝐅𝐈𝐗 ➜ ${groupPrefix}
@@ -133,7 +149,7 @@ module.exports = {
 ⚡ 𝐒𝐓𝐀𝐓𝐔𝐒 ➜ 𝐎𝐍𝐋𝐈𝐍𝐄
 〔 💎𝐍𝐈𝐉𝐇𝐔𝐌 𝐁𝐎𝐓💎 〕`;
 
-    const design2 = `◢◤◢◤◢◤◢◤◢◤◢◤◢◤
+      const design2 = `◢◤◢◤◢◤◢◤◢◤◢◤◢◤
 🔥 𝐏𝐑𝐄𝐅𝐈𝐗 𝐏𝐀𝐍𝐄𝐋 🔥
 ➥ 👥 𝐆𝐑𝐎𝐔𝐏 :: ${groupName}
 ➥ ⚙️ 𝐒𝐘𝐒𝐓𝐄𝐌 :: ${systemPrefix}
@@ -146,9 +162,13 @@ module.exports = {
 ➥ ⚡ 𝐒𝐓𝐀𝐓𝐔𝐒 :: 𝐎𝐍𝐋𝐈𝐍𝐄
 💎𝐒𝐈𝐘𝐀𝐌 𝐄𝐌𝐏𝐈𝐑𝐄💎`;
 
-    return message.reply({
-      body: index === 0 ? design1 : design2,
-      attachment: media
-    });
+      const msgPayload = {
+        body: index === 0 ? design1 : design2
+      };
+
+      if (media) msgPayload.attachment = media;
+
+      return message.reply(msgPayload);
+    }
   }
 };
