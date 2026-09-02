@@ -2,7 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const https = require("https");
 
-const AUTHOR = "𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍";
+const AUTHOR = "𝆠፝𝆠፝𝐑𝐀𝐓𝐇𝐀𝐍-𝐍𝐎𝐘𝐎𝐍 ";
 
 module.exports = {
   config: {
@@ -32,26 +32,25 @@ const lastReplyUser = {};
 const TRIGGERS = [
   {
     words: [
-      "siyam",
-      "সিয়াম",
-      "@RJ siyam",
-      "হৃদয়",
-      "@পি্ঁচ্চি্ঁ রি্ঁদ্ঁয়্ঁ ত্যা্ঁহ্ঁ"
+      "রায়হান",
+      "Rayhan",
+      "@Rj Sabbir",
+      "Boss",
+      "@মা্ঁতা্ঁল্ঁ রা্ঁজা্ঁ"
     ],
-    text: `𝗢𝗪𝗡𝗘𝗥 𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍
+    text: `𝗢𝗪𝗡𝗘𝗥 𝐑𝐀𝐓𝐇𝐀𝐍-𝐍𝐎𝐘𝐎𝐍
 ───────────────
 » 🌷 𝗪𝗘𝗟𝗖𝗢𝗠𝗘 𝗗𝗘𝗔𝗥
 » 🤲 আসসালামু আলাইকুম
-» 👑 সিয়াম বস এখন 
+» 👑 রায়হান বস এখন 
 » 🦉 ব্যস্ত আছেন
 » 💌 আপনার মেসেজ 
 » 🖥️ ইনবক্সে দিয়ে রাখুন
 » ⚡ বস ফ্রি হলে উত্তর পাবেন
 » 🤍 ধৈর্য ধরার জন্য ধন্যবাদ
 ───────────────
-» 👤 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍
-» 📞 +8801789138157
-» 🔗 𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞: https://www.facebook.com/profile.php?id=61592677587804`,
+» 👤 𝆠፝𝐑𝐀𝐓𝐇𝐀𝐍-𝐍𝐎𝐘𝐎𝐍
+» 🔗 𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞:https://www.facebook.com/profile.php?id=61592296966851`,
     images: [
       "https://i.imgur.com/XDj7Lg3.jpeg",
       "https://i.imgur.com/vPTaRaf.jpeg",
@@ -63,7 +62,7 @@ const TRIGGERS = [
     words: [
       "নিঝুম",
       "@বট",
-      "@নি্ঁঝু্ঁম্ঁ রা্ঁতে্ঁর্ঁ প্ঁরী্ঁ"
+      "@Rj Sabbir"
     ],
     text: `🔰💠𝗡𝗜𝗝𝗛𝗨𝗠 𝗕𝗢𝗧💠🔱
 ───────────────
@@ -75,10 +74,10 @@ const TRIGGERS = [
 » 🤖 নিতে পারেন
 » 🤍 ধন্যবাদ
 ───────────────
-» 👑 𝗢𝗪𝗡𝗘𝗥: 𝆠፝𝐒𝐈𝐘𝐀𝐌-𝐇𝐀𝐒𝐀𝐍
+» 👑 𝗢𝗪𝗡𝗘𝗥: 𝆠፝𝐑𝐀𝐓𝐇𝐀𝐍-𝐍𝐎𝐘𝐎𝐍
 
 » 📞 𝗖𝗢𝗡𝗧𝗔𝗖𝗧: +8801789138157
-» 🔗 𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞: https://www.facebook.com/profile.php?id=61592677587804`,
+» 🔗 𝗙𝗔𝗖𝗘𝗕𝗢𝗢𝗞: https://www.facebook.com/profile.php?id=61592296966851",
     images: [
       "https://i.imgur.com/rkrXNso.jpeg",
       "https://i.imgur.com/wyNCOKV.gif"
